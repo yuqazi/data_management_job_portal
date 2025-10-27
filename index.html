@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Website Title -->
+    <title>Job Portal</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid d-flex flex-row align-items-center" style="overflow-x:auto;">
+            <a class="navbar-brand me-3" href="#">Home</a>
+            <ul class="navbar-nav d-flex flex-row align-items-center gap-3 mb-0" style="white-space:nowrap;">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Job Search Boxes -->
+    <div class="pt-5">
+        <h1 class="text-center">Job Portal Search</h1>
+        <p class="text-center">
+            Please use the search box below to find job listings that match your criteria.
+        </p>
+
+        <!-- Search Boxes and Submit Button -->
+        <div class="d-flex flex-row align-items-center gap-2 p-4">
+            <input id="centerInput" class="form-control" type="text" placeholder="Job Titles, Keywords, or Company"
+                aria-label="Centered input" required>
+            <input id="centerInput" class="form-control" type="text" placeholder="Location" aria-label="Centered input" required>
+            <input type="button" class="btn btn-primary" value="Search">
+
+        </div>
+
+        <!-- Tags List -->
+        <div id="tags">
+
+            <div class="d-flex gap-2 form-check flex-row align-items-center justify-content-center flex-wrap mb-4">
+
+                <input class="btn-check" type="checkbox" id="pill1" autocomplete="off">
+                <label class="btn border-dark rounded-pill px-3" for="pill1">
+                    Option A
+                </label>
+
+                <input class="btn-check" type="checkbox" id="pill2" autocomplete="off">
+                <label class="btn border-dark rounded-pill px-3" for="pill2">
+                    Option B
+                </label>
+
+                <input class="btn-check" type="checkbox" id="pill3" autocomplete="off">
+                <label class="btn border-dark rounded-pill px-3" for="pill3">
+                    Option C
+                </label>
+
+                <input class="btn-check" type="checkbox" id="pill4" autocomplete="off">
+                <label class="btn border-dark rounded-pill px-3" for="pill4">
+                    Option D
+                </label>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="contianer-fluid align-items-center d-flex flex-row px-4">
+        <div class="mt-5 me-4 border border-dark rounded p-2">
+            <h4>
+                Filters
+            </h4>
+            <hr class="border border-dark">
+
+            <div class="d-flex flex-column gap-2">
+                <!-- Job type filter dropdown -->
+                <div class="dropdown" data-bs-auto-close="outside">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Job Type
+                    </button>
+                    <ul class="dropdown-menu ps-2">
+                        <li><input type="checkbox" id="fulltime" name="fulltime" value="Full Time">
+                            <label for="fulltime"> Full Time</label><br>
+                        </li>
+                        <li><input type="checkbox" id="parttime" name="parttime" vsalue="Part Time">
+                            <label for="parttime"> Part Time</label><br>
+                        </li>
+                        <li><input type="checkbox" id="remote" name="remote" value="Remote">
+                            <label for="remote"> Remote</label><br>
+                        </li>
+                        <li><input type="checkbox" id="internship" name="internship" value="Internship">
+                            <label for="internship"> Internship/Co-Op</label><br>
+                        </li>
+                        <li><input type="checkbox" id="volunteer" name="volunteer" value="Volunteer">
+                            <label for="volunteer"> Volunteer</label><br>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Salary Range filter dropdown -->
+                <div class="dropdown" data-bs-auto-close="outside">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Salary Range
+                    </button>
+                    <ul class="dropdown-menu ps-2">
+                        <li><input type="checkbox" id="s40" name="salary" value="<40k">
+                            <label for="s40">&lt; $40k</label><br>
+                        </li>
+                        <li><input type="checkbox" id="s60" name="salary" value="40-60k">
+                            <label for="s60">$40k–$60k</label><br>
+                        </li>
+                        <li><input type="checkbox" id="s80" name="salary" value="60-80k">
+                            <label for="s80">$60k–$80k</label><br>
+                        </li>
+                        <li><input type="checkbox" id="s100" name="salary" value="80-100k">
+                            <label for="s100">$80k–$100k</label><br>
+                        </li>
+                        <li><input type="checkbox" id="s100plus" name="salary" value="100k+">
+                            <label for="s100plus">$100k+</label><br>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Experience Level Dropdown -->
+
+                <div class="dropdown" data-bs-auto-close="outside">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Experience Level
+                    </button>
+                    <ul class="dropdown-menu ps-2">
+                        <li><input type="checkbox" id="entry" name="experience" value="Entry Level">
+                            <label for="entry"> Entry Level</label><br>
+                        </li>
+                        <li><input type="checkbox" id="mid" name="experience" value="Mid Level">
+                            <label for="mid"> Mid Level</label><br>
+                        </li>
+                        <li><input type="checkbox" id="senior" name="experience" value="Senior Level">
+                            <label for="senior"> Senior Level</label><br>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+        <div>
+            <h4 class="text-center mt-5 col-4">
+                Available Positions
+            </h4>
+        </div>
+    </div>
+
+    <!-- Javascript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
