@@ -32,11 +32,13 @@
             </div>
             <div class="mb-3">
                 <label for="passwordInput" class="form-label">Password</label>
-                <input type="password" class="form-control" id="passwordInput" placeholder="Enter your password" required>
+                <input type="password" class="form-control" id="passwordInput" placeholder="Enter your password"
+                    required>
             </div>
             <div class="mb-3">
                 <label for="passwordInput" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="passwordInput" placeholder="Confirm your password" required>
+                <input type="password" class="form-control" id="passwordInput" placeholder="Confirm your password"
+                    required>
             </div>
             <div class="mb-3">
                 <label for="aboutInput">About Me</label>
@@ -46,7 +48,29 @@
              possibly scroll through the list of tags and select the ones you want to add to your list -->
             <div class="mb-3">
                 <label for="skillTags">Enter Your Skills</label>
-                <input type="checkbox" class="form-control" id="skillTags">
+                <div id="skillTags" class="form-control d-flex gap-2 form-check flex-row align-items-center justify-content-center flex-wrap mb-4">
+
+                    <input class="btn-check" type="checkbox" id="pill1" autocomplete="off">
+                    <label class="btn border-dark rounded-pill px-3" for="pill1">
+                        Option A
+                    </label>
+
+                    <input class="btn-check" type="checkbox" id="pill2" autocomplete="off">
+                    <label class="btn border-dark rounded-pill px-3" for="pill2">
+                        Option B
+                    </label>
+
+                    <input class="btn-check" type="checkbox" id="pill3" autocomplete="off">
+                    <label class="btn border-dark rounded-pill px-3" for="pill3">
+                        Option C
+                    </label>
+
+                    <input class="btn-check" type="checkbox" id="pill4" autocomplete="off">
+                    <label class="btn border-dark rounded-pill px-3" for="pill4">
+                        Option D
+                    </label>
+
+                </div>
             </div>
             <button type="submit" class="btn btn-primary w-100">Create Account</button>
         </form>
@@ -55,7 +79,7 @@
 
     <!-- Javascript Files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="#"></script>
+    <script src="Create-account.js"></script>
 </body>
 
 </html>
