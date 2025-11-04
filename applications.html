@@ -22,15 +22,11 @@
                     <a class="nav-link" href="index.html">Search</a>
                 </li>
                 <li>
-                    <a class="nav-link" href="create_job.html">Create Job</a>
-                </li>
-                <li>
                     <a class="nav-link" href="profile.html">Profile</a>
                 </li>
             </ul>
         </div>
     </nav>
-
 
     <!-- Job Posting Info -->
     <div class="container mt-5">
@@ -46,35 +42,49 @@
 
         <!-- Search Applicants -->
         <div class="d-flex flex-row align-items-center gap-2 p-4">
-            <input id="centerInput" class="form-control w-100" type="text"
-                placeholder="Applicant Name, or Keywords" aria-label="Centered input" required>
+            <input id="centerInput" class="form-control w-100" type="text" placeholder="Applicant Name, or Keywords"
+                aria-label="Centered input" required>
         </div>
 
         <!-- Applicants -->
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Applications</h5>
-                <div>(Number of Applications (6))</div>
+                <h6 class="mb-0" id="numApplications">hello</h6>
             </div>
-            <div class="list-group list-group-flush overflow-auto" style="max-height: 300px;">
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">Bob Joe</h6>
-                        <small class="text-muted">(time since application)</small>
-                    </div>
-                    <p class="mb-1">(Keywords)</p>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-100 justify-content-between">
-                        <h6 class="mb-1">Joe Mama</h6>
-                        <small class="text-muted">(time since application)</small>
-                    </div>
-                    <p class="mb-1">(Keywords)</p>
-                </a>
-                <a href="#" class="list-group-item list-group-item-action">... (Another Applicant) ...</a>
-                <a href="#" class="list-group-item list-group-item-action">... (Another Applicant) ...</a>
-                <a href="#" class="list-group-item list-group-item-action">... (Another Applicant) ...</a>
-                <a href="#" class="list-group-item list-group-item-action">... (Another Applicant) ...</a>
+
+            <!-- Job Listings -->
+            <div class="list-group list-group-flush overflow-auto" id="applicationList" style="max-height: 300px;">
+                <jobapp>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Bob Joe</h6>
+                            <small class="text-muted">(time since application)</small>
+                        </div>
+                        <p class="mb-1">(Keywords)</p>
+                    </a>
+                </jobapp>
+                <jobapp>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1">Joe Mama</h6>
+                            <small class="text-muted">(time since application)</small>
+                        </div>
+                        <p class="mb-1">(Keywords)</p>
+                    </a>
+                </jobapp>
+                <jobapp>
+                    <a href="#" class="list-group-item list-group-item-action">... (Another Applicant) ...</a>
+                </jobapp>
+                <jobapp>
+                    <a href="#" class="list-group-item list-group-item-action">... (Another Applicant) ...</a>
+                </jobapp>
+                <jobapp>
+                    <a href="#" class="list-group-item list-group-item-action">... (Another Applicant) ...</a>
+                </jobapp>
+                <jobapp>
+                    <a href="#" class="list-group-item list-group-item-action">... (Another Applicant) ...</a>
+                </jobapp>
             </div>
         </div>
     </div>
@@ -82,7 +92,7 @@
 
     <!-- Javascript Files -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="app.js"></script>
+    <script src="applications.js"></script>
 </body>
 
 </html>
