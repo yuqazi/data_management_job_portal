@@ -30,6 +30,7 @@
         </div>
     </nav>
 
+
     <!-- Job Search Boxes -->
     <div class="pt-5">
         <h1 class="text-center">Job Portal Search</h1>
@@ -38,130 +39,162 @@
         </p>
 
         <!-- Search Boxes and Submit Button -->
-         <div class="container d-flex flex-column justify-content-center">
-             <div class="d-flex flex-row gap-2 p-4">
-                 <input id="centerInput" class="form-control w-50" type="text" placeholder="Job Titles, Keywords, or Company"
-                     aria-label="Centered input" required>
-                 <input id="centerInput" class="form-control w-50" type="text" placeholder="Location" aria-label="Centered input" required>
-                 <input type="button" class="btn btn-primary" value="Search">
-             </div>
-         </div>
-
-        <!-- Tags List -->
-        <div id="tags">
-
-            <div class="d-flex gap-2 form-check flex-row align-items-center justify-content-center flex-wrap mb-4">
-
-                <input class="btn-check" type="checkbox" id="pill1" autocomplete="off">
-                <label class="btn border-dark rounded-pill px-3" for="pill1">
-                    Option A
-                </label>
-
-                <input class="btn-check" type="checkbox" id="pill2" autocomplete="off">
-                <label class="btn border-dark rounded-pill px-3" for="pill2">
-                    Option B
-                </label>
-
-                <input class="btn-check" type="checkbox" id="pill3" autocomplete="off">
-                <label class="btn border-dark rounded-pill px-3" for="pill3">
-                    Option C
-                </label>
-
-                <input class="btn-check" type="checkbox" id="pill4" autocomplete="off">
-                <label class="btn border-dark rounded-pill px-3" for="pill4">
-                    Option D
-                </label>
-
+        <div class="container d-flex flex-column justify-content-center">
+            <div class="d-flex flex-row gap-2 p-4">
+                <input id="centerInput" class="form-control w-50" type="text"
+                    placeholder="Job Titles, Keywords, or Company" aria-label="Centered input" required>
+                <input id="centerInput" class="form-control w-50" type="text" placeholder="Location"
+                    aria-label="Centered input" required>
+                <input type="button" class="btn btn-primary" value="Search">
             </div>
-
         </div>
     </div>
 
-    <div class="contianer-fluid align-items-center d-flex flex-row px-5">
-        <div class="mt-5 me-4 border border-dark rounded p-4">
-            <h4>
-                Filters
-            </h4>
-            <hr class="border border-dark">
+    <div class="mx-4">
+        <!-- Job Details Section -->
+        <div class="container-fluid align-items-start d-flex flex-row ms-2">
 
-            <div class="d-flex flex-column gap-2">
-                <!-- Job type filter dropdown -->
-                <div class="dropdown" data-bs-auto-close="outside">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Job Type
-                    </button>
-                    <ul class="dropdown-menu ps-2">
-                        <li><input type="checkbox" id="fulltime" name="fulltime" value="Full Time">
-                            <label for="fulltime"> Full Time</label><br>
-                        </li>
-                        <li><input type="checkbox" id="parttime" name="parttime" vsalue="Part Time">
-                            <label for="parttime"> Part Time</label><br>
-                        </li>
-                        <li><input type="checkbox" id="remote" name="remote" value="Remote">
-                            <label for="remote"> Remote</label><br>
-                        </li>
-                        <li><input type="checkbox" id="internship" name="internship" value="Internship">
-                            <label for="internship"> Internship/Co-Op</label><br>
-                        </li>
-                        <li><input type="checkbox" id="volunteer" name="volunteer" value="Volunteer">
-                            <label for="volunteer"> Volunteer</label><br>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Filters Section -->
+            <div class="mt-5 me-4 border border-dark rounded p-4">
+                <h4>
+                    Filters
+                </h4>
+                <hr class="border border-dark">
+                <div class="d-flex flex-column gap-2">
+                    <!-- Job type filter dropdown -->
+                    <div class="dropdown" data-bs-auto-close="outside">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Job Type
+                        </button>
+                        <ul class="dropdown-menu ps-2">
+                            <li><input type="checkbox" id="fulltime" name="fulltime" value="Full Time">
+                                <label for="fulltime"> Full Time</label><br>
+                            </li>
+                            <li><input type="checkbox" id="parttime" name="parttime" vsalue="Part Time">
+                                <label for="parttime"> Part Time</label><br>
+                            </li>
+                            <li><input type="checkbox" id="remote" name="remote" value="Remote">
+                                <label for="remote"> Remote</label><br>
+                            </li>
+                            <li><input type="checkbox" id="internship" name="internship" value="Internship">
+                                <label for="internship"> Internship/Co-Op</label><br>
+                            </li>
+                            <li><input type="checkbox" id="volunteer" name="volunteer" value="Volunteer">
+                                <label for="volunteer"> Volunteer</label><br>
+                            </li>
+                        </ul>
+                    </div>
 
-                <!-- Salary Range filter dropdown -->
-                <div class="dropdown" data-bs-auto-close="outside">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Salary Range
-                    </button>
-                    <ul class="dropdown-menu ps-2">
-                        <li><input type="checkbox" id="s40" name="salary" value="<40k">
-                            <label for="s40">&lt; $40k</label><br>
-                        </li>
-                        <li><input type="checkbox" id="s60" name="salary" value="40-60k">
-                            <label for="s60">$40k–$60k</label><br>
-                        </li>
-                        <li><input type="checkbox" id="s80" name="salary" value="60-80k">
-                            <label for="s80">$60k–$80k</label><br>
-                        </li>
-                        <li><input type="checkbox" id="s100" name="salary" value="80-100k">
-                            <label for="s100">$80k–$100k</label><br>
-                        </li>
-                        <li><input type="checkbox" id="s100plus" name="salary" value="100k+">
-                            <label for="s100plus">$100k+</label><br>
-                        </li>
-                    </ul>
-                </div>
+                    <!-- Salary Range filter dropdown -->
+                    <div class="dropdown" data-bs-auto-close="outside">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Salary Range
+                        </button>
+                        <ul class="dropdown-menu ps-2">
+                            <li><input type="checkbox" id="s40" name="salary" value="<40k">
+                                <label for="s40">&lt; $40k</label><br>
+                            </li>
+                            <li><input type="checkbox" id="s60" name="salary" value="40-60k">
+                                <label for="s60">$40k–$60k</label><br>
+                            </li>
+                            <li><input type="checkbox" id="s80" name="salary" value="60-80k">
+                                <label for="s80">$60k–$80k</label><br>
+                            </li>
+                            <li><input type="checkbox" id="s100" name="salary" value="80-100k">
+                                <label for="s100">$80k–$100k</label><br>
+                            </li>
+                            <li><input type="checkbox" id="s100plus" name="salary" value="100k+">
+                                <label for="s100plus">$100k+</label><br>
+                            </li>
+                        </ul>
+                    </div>
 
-                <!-- Experience Level Dropdown -->
+                    <!-- Experience Level Dropdown -->
 
-                <div class="dropdown" data-bs-auto-close="outside">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Experience Level
-                    </button>
-                    <ul class="dropdown-menu ps-2">
-                        <li><input type="checkbox" id="entry" name="experience" value="Entry Level">
-                            <label for="entry"> Entry Level</label><br>
-                        </li>
-                        <li><input type="checkbox" id="mid" name="experience" value="Mid Level">
-                            <label for="mid"> Mid Level</label><br>
-                        </li>
-                        <li><input type="checkbox" id="senior" name="experience" value="Senior Level">
-                            <label for="senior"> Senior Level</label><br>
-                        </li>
-                    </ul>
+                    <div class="dropdown" data-bs-auto-close="outside">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Experience Level
+                        </button>
+                        <ul class="dropdown-menu ps-2">
+                            <li><input type="checkbox" id="entry" name="experience" value="Entry Level">
+                                <label for="entry"> Entry Level</label><br>
+                            </li>
+                            <li><input type="checkbox" id="mid" name="experience" value="Mid Level">
+                                <label for="mid"> Mid Level</label><br>
+                            </li>
+                            <li><input type="checkbox" id="senior" name="experience" value="Senior Level">
+                                <label for="senior"> Senior Level</label><br>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
-        <div>
-            <h4 class="text-center mt-5 col-4">
-                Available Positions
-            </h4>
+            <!-- Job Posts Section -->
+            <div class="mt-5 flex-grow-1 me-4">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Available Positions</h5>
+                    </div>
+                    <div class="list-group list-group-flush overflow-auto" style="max-height: 600px;">
+
+                        <a href="apply.html"
+                            class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
+                            <div class="col-8">
+                                <h6 class="mb-1">Data Scientist</h6>
+                                <p class="mb-1">We are looking for a talented data scientist to join our team.</p>
+                                <small class="text-muted">Boston, MA</small>
+                            </div>
+                            <div class="text-end col-4">
+                                <small class="text-muted d-block">1 day ago</small>
+                                <p class="mb-1">(Applicant Amount)</p>
+                            </div>
+                        </a>
+
+                        <a href="apply.html"
+                            class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
+                            <div class="col-8">
+                                <h6 class="mb-1">Frontend Developer</h6>
+                                <p class="mb-1">We are looking for a talented Frontend Developer to join our team.</p>
+                                <small class="text-muted">Boston, MA</small>
+                            </div>
+                            <div class="text-end col-4">
+                                <small class="text-muted d-block">1 day ago</small>
+                                <p class="mb-1">(Applicant Amount)</p>
+                            </div>
+                        </a>
+
+                        <a href="apply.html"
+                            class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
+                            <div class="col-8">
+                                <h6 class="mb-1">Software Architect</h6>
+                                <p class="mb-1">We are looking for a talented Software Architect to join our team.</p>
+                                <small class="text-muted">Boston, MA</small>
+                            </div>
+                            <div class="text-end col-4">
+                                <small class="text-muted d-block">1 day ago</small>
+                                <p class="mb-1">(Applicant Amount)</p>
+                            </div>
+                        </a>
+
+
+                        <a href="apply.html" class="list-group-item list-group-item-action">... (Another Posting)
+                            ...</a>
+                        <a href="apply.html" class="list-group-item list-group-item-action">... (Another Posting)
+                            ...</a>
+                        <a href="apply.html" class="list-group-item list-group-item-action">... (Another Posting)
+                            ...</a>
+                        <a href="apply.html" class="list-group-item list-group-item-action">... (Another Posting)
+                            ...</a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
