@@ -35,19 +35,36 @@
                 <h5 class="card-title">Create a New Job Posting</h5>
                 <div class="mb-3">
                     <label for="jobTitle" class="form-label">Job Title</label>
-                    <input type="text" class="form-control" id="jobTitle">
+                    <input type="text" class="form-control" id="jobTitle" required>
+                </div>
+                <label for="jobType">Job type</label>
+                <div class="mb-3" id="jobType">
+                    <input type="checkbox" class="form-check-input" id="fullTime">
+                    <label class="form-check-label" for="fullTime">Full-time</label>
+                    <br>
+                    <input type="checkbox" class="form-check-input" id="partTime">
+                    <label class="form-check-label" for="partTime">Part-time</label>
+                    <br>
+                    <input type="checkbox" class="form-check-input" id="remote">
+                    <label class="form-check-label" for="partTime">Remote</label>
+                    <br>
+                    <input type="checkbox" class="form-check-input" id="contract">
+                    <label class="form-check-label" for="contract">Internship/Co-Op</label>
+                    <br>
+                    <input type="checkbox" class="form-check-input" id="volunteer">
+                    <label class="form-check-label" for="partTime">Volunteer</label>
                 </div>
                 <div class="mb-3">
                     <label for="jobDescription" class="form-label">Job Description</label>
-                    <textarea class="form-control" id="jobDescription" rows="4"></textarea>
+                    <textarea class="form-control" id="jobDescription" rows="4" required></textarea>
                 </div>
                 <div class="mb-3">
                     <label for="jobLocation" class="form-label">Location</label>
-                    <input type="text" class="form-control" id="jobLocation">
+                    <input type="text" class="form-control" id="jobLocation" required>
                 </div>
                 <div class="mb-3">
                     <label for="keywords" class="form-label">Keywords</label>
-                    <input type="text" class="form-control" id="keywords" placeholder="e.g. Python, Remote, Full-time">
+                    <input type="text" class="form-control" id="keywords" placeholder="e.g. Python, Remote, Full-time" required>
                 </div>
             </div>
         </div>
