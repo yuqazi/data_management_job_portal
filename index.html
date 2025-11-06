@@ -56,83 +56,84 @@
 
             <!-- Filters Section -->
             <div class="mt-5 me-4 border border-dark rounded p-4">
-                <h4>
-                    Filters
-                </h4>
-                <hr class="border border-dark">
-                <div class="d-flex flex-column gap-2">
-                    <!-- Job type filter dropdown -->
-                    <div class="dropdown" data-bs-auto-close="outside">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Job Type
-                        </button>
-                        <ul class="dropdown-menu ps-2">
-                            <li><input type="checkbox" id="fulltime" name="fulltime" value="Full Time">
-                                <label for="fulltime"> Full Time</label><br>
-                            </li>
-                            <li><input type="checkbox" id="parttime" name="parttime" vsalue="Part Time">
-                                <label for="parttime"> Part Time</label><br>
-                            </li>
-                            <li><input type="checkbox" id="remote" name="remote" value="Remote">
-                                <label for="remote"> Remote</label><br>
-                            </li>
-                            <li><input type="checkbox" id="internship" name="internship" value="Internship">
-                                <label for="internship"> Internship/Co-Op</label><br>
-                            </li>
-                            <li><input type="checkbox" id="volunteer" name="volunteer" value="Volunteer">
-                                <label for="volunteer"> Volunteer</label><br>
-                            </li>
-                        </ul>
+                <form id="filtersForm">
+                    <h4>
+                        Filters
+                    </h4>
+                    <hr class="border border-dark">
+                    <div class="d-flex flex-column gap-2">
+                        <!-- Job type filter dropdown -->
+                        <div class="dropdown" data-bs-auto-close="outside">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Job Type
+                            </button>
+                            <ul class="dropdown-menu ps-2">
+                                <li><input type="checkbox" id="fulltime" name="fulltime" value="Full Time">
+                                    <label for="fulltime"> Full Time</label><br>
+                                </li>
+                                <li><input type="checkbox" id="parttime" name="parttime" vsalue="Part Time">
+                                    <label for="parttime"> Part Time</label><br>
+                                </li>
+                                <li><input type="checkbox" id="remote" name="remote" value="Remote">
+                                    <label for="remote"> Remote</label><br>
+                                </li>
+                                <li><input type="checkbox" id="internship" name="internship" value="Internship">
+                                    <label for="internship"> Internship/Co-Op</label><br>
+                                </li>
+                                <li><input type="checkbox" id="volunteer" name="volunteer" value="Volunteer">
+                                    <label for="volunteer"> Volunteer</label><br>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Salary Range filter dropdown -->
+                        <div class="dropdown" data-bs-auto-close="outside">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Salary Range
+                            </button>
+                            <ul class="dropdown-menu ps-2">
+                                <li><input type="checkbox" id="s40" name="salary" value="<40k">
+                                    <label for="s40">&lt; $40k</label><br>
+                                </li>
+                                <li><input type="checkbox" id="s60" name="salary" value="40-60k">
+                                    <label for="s60">$40k–$60k</label><br>
+                                </li>
+                                <li><input type="checkbox" id="s80" name="salary" value="60-80k">
+                                    <label for="s80">$60k–$80k</label><br>
+                                </li>
+                                <li><input type="checkbox" id="s100" name="salary" value="80-100k">
+                                    <label for="s100">$80k–$100k</label><br>
+                                </li>
+                                <li><input type="checkbox" id="s100plus" name="salary" value="100k+">
+                                    <label for="s100plus">$100k+</label><br>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Experience Level Dropdown -->
+
+                        <div class="dropdown" data-bs-auto-close="outside">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Experience Level
+                            </button>
+                            <ul class="dropdown-menu ps-2">
+                                <li><input type="checkbox" id="entry" name="experience" value="Entry Level">
+                                    <label for="entry"> Entry Level</label><br>
+                                </li>
+                                <li><input type="checkbox" id="mid" name="experience" value="Mid Level">
+                                    <label for="mid"> Mid Level</label><br>
+                                </li>
+                                <li><input type="checkbox" id="senior" name="experience" value="Senior Level">
+                                    <label for="senior"> Senior Level</label><br>
+                                </li>
+                            </ul>
+                        </div>
+
                     </div>
-
-                    <!-- Salary Range filter dropdown -->
-                    <div class="dropdown" data-bs-auto-close="outside">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Salary Range
-                        </button>
-                        <ul class="dropdown-menu ps-2">
-                            <li><input type="checkbox" id="s40" name="salary" value="<40k">
-                                <label for="s40">&lt; $40k</label><br>
-                            </li>
-                            <li><input type="checkbox" id="s60" name="salary" value="40-60k">
-                                <label for="s60">$40k–$60k</label><br>
-                            </li>
-                            <li><input type="checkbox" id="s80" name="salary" value="60-80k">
-                                <label for="s80">$60k–$80k</label><br>
-                            </li>
-                            <li><input type="checkbox" id="s100" name="salary" value="80-100k">
-                                <label for="s100">$80k–$100k</label><br>
-                            </li>
-                            <li><input type="checkbox" id="s100plus" name="salary" value="100k+">
-                                <label for="s100plus">$100k+</label><br>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <!-- Experience Level Dropdown -->
-
-                    <div class="dropdown" data-bs-auto-close="outside">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            Experience Level
-                        </button>
-                        <ul class="dropdown-menu ps-2">
-                            <li><input type="checkbox" id="entry" name="experience" value="Entry Level">
-                                <label for="entry"> Entry Level</label><br>
-                            </li>
-                            <li><input type="checkbox" id="mid" name="experience" value="Mid Level">
-                                <label for="mid"> Mid Level</label><br>
-                            </li>
-                            <li><input type="checkbox" id="senior" name="experience" value="Senior Level">
-                                <label for="senior"> Senior Level</label><br>
-                            </li>
-                        </ul>
-                    </div>
-
-                </div>
-
+                </form>
             </div>
 
             <!-- Job Posts Section -->
@@ -154,7 +155,10 @@
                 </div>
 
             </div>
+
         </div>
+
+
     </div>
 
     <!-- Javascript Files -->

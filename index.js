@@ -1,6 +1,6 @@
+// Prevent dropdowns from closing when clicking checkboxes
 document.querySelectorAll('.dropdown-menu').forEach(menu => {
   menu.addEventListener('click', function (e) {
-    // Only prevent closing when clicking on checkbox or its label
     if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') {
       e.stopPropagation();
     }
@@ -11,7 +11,19 @@ let currentPage = 1;
 const limit = 5; // jobs per page
 
 function loadJobs(page = 1) {
-  fetch(`indexController.php?page=${page}&limit=${limit}`)
+  const formData = new FormData(document.getElementById('filtersForm'));
+
+  // Convert FormData to URL query parameters
+  const params = new URLSearchParams();
+  params.append('page', page);
+  params.append('limit', limit);
+
+  // Add selected filters
+  for (let [key, value] of formData.entries()) {
+    params.append(key, value);
+  }
+
+  fetch(`indexController.php?${params.toString()}`)
     .then(res => res.json())
     .then(data => {
       const jobs = data.jobs || [];
@@ -44,7 +56,7 @@ function loadJobs(page = 1) {
         jobsList.appendChild(jobCard);
       });
 
-      // Handle pagination button states
+      // Pagination buttons
       prevBtn.disabled = data.page <= 1;
       const totalPages = Math.ceil(data.totalJobs / data.limit);
       nextBtn.disabled = data.page >= totalPages;
@@ -55,6 +67,7 @@ function loadJobs(page = 1) {
     });
 }
 
+// Add event listeners for pagination buttons
 document.addEventListener("DOMContentLoaded", () => {
   const prevBtn = document.getElementById('prevPage');
   const nextBtn = document.getElementById('nextPage');
@@ -68,6 +81,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   nextBtn.addEventListener('click', () => {
     currentPage++;
+    loadJobs(currentPage);
+  });
+
+  // Listen to any filter change
+  const filtersForm = document.getElementById('filtersForm');
+  filtersForm.addEventListener('change', () => {
+    currentPage = 1;
     loadJobs(currentPage);
   });
 

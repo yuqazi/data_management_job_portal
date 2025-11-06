@@ -3,115 +3,174 @@
 
 function getAllJobs() {
     return [
-        // --- TechCorp ---
+        // TechCorp
         [
             "title" => "Frontend Developer",
             "company" => "TechCorp",
             "location" => "Toronto, ON",
-            "description" => "Develop and maintain responsive web interfaces using HTML, CSS, and JavaScript.",
-            "postedDate" => "2025-11-01"
+            "description" => "Develop responsive web apps using React and Bootstrap.",
+            "postedDate" => "2025-11-01",
+            "jobType" => "Full-Time",
+            "experience" => "Mid-Level",
+            "salaryRange" => "60k-80k"
         ],
         [
             "title" => "Backend Engineer",
             "company" => "TechCorp",
             "location" => "Remote",
-            "description" => "Design RESTful APIs and integrate backend systems using PHP and Node.js.",
-            "postedDate" => "2025-10-28"
-        ],
-        [
-            "title" => "Full Stack Developer",
-            "company" => "TechCorp",
-            "location" => "Ottawa, ON",
-            "description" => "Work on both frontend and backend systems with React and Laravel.",
-            "postedDate" => "2025-10-15"
+            "description" => "Design RESTful APIs with Node.js and PHP.",
+            "postedDate" => "2025-10-28",
+            "jobType" => "Remote",
+            "experience" => "Senior",
+            "salaryRange" => "80k-100k"
         ],
         [
             "title" => "Quality Assurance Tester",
             "company" => "TechCorp",
             "location" => "Toronto, ON",
-            "description" => "Test web applications and ensure bug-free releases.",
-            "postedDate" => "2025-09-22"
-        ],
-        [
-            "title" => "Technical Project Manager",
-            "company" => "TechCorp",
-            "location" => "Mississauga, ON",
-            "description" => "Lead cross-functional teams and manage agile development cycles.",
-            "postedDate" => "2025-08-30"
+            "description" => "Perform test cases and ensure product stability.",
+            "postedDate" => "2025-09-22",
+            "jobType" => "Volunteer",
+            "experience" => "Entry-Level",
+            "salaryRange" => "45k-60k"
         ],
 
-        // --- DataSoft ---
+        // DataSoft
         [
             "title" => "Data Analyst",
             "company" => "DataSoft",
             "location" => "Vancouver, BC",
-            "description" => "Analyze datasets, build dashboards, and generate business insights using Power BI.",
-            "postedDate" => "2025-10-25"
+            "description" => "Analyze datasets, build dashboards, and generate business insights.",
+            "postedDate" => "2025-10-25",
+            "jobType" => "Full-Time",
+            "experience" => "Mid-Level",
+            "salaryRange" => "65k-85k"
         ],
         [
             "title" => "Machine Learning Engineer",
             "company" => "DataSoft",
             "location" => "Calgary, AB",
-            "description" => "Develop and deploy ML models in production environments using Python.",
-            "postedDate" => "2025-09-18"
+            "description" => "Build and deploy ML models using Python and TensorFlow.",
+            "postedDate" => "2025-09-18",
+            "jobType" => "Volunteer",
+            "experience" => "Senior",
+            "salaryRange" => "100k-130k"
         ],
         [
             "title" => "Database Administrator",
             "company" => "DataSoft",
             "location" => "Vancouver, BC",
             "description" => "Manage large-scale MySQL databases and optimize performance.",
-            "postedDate" => "2025-10-02"
-        ],
-        [
-            "title" => "Business Intelligence Developer",
-            "company" => "DataSoft",
-            "location" => "Edmonton, AB",
-            "description" => "Create BI reports and ETL pipelines for client analytics.",
-            "postedDate" => "2025-11-02"
-        ],
-        [
-            "title" => "Cloud Engineer",
-            "company" => "DataSoft",
-            "location" => "Remote",
-            "description" => "Design and maintain AWS and Azure cloud infrastructure.",
-            "postedDate" => "2025-09-05"
+            "postedDate" => "2025-10-02",
+            "jobType" => "Full-Time",
+            "experience" => "Mid-Level",
+            "salaryRange" => "70k-90k"
         ],
 
-        // --- Designify ---
+        // Designify
         [
             "title" => "UX Designer",
             "company" => "Designify",
             "location" => "Ottawa, ON",
-            "description" => "Create wireframes, prototypes, and visual mockups for web apps.",
-            "postedDate" => "2025-11-02"
+            "description" => "Create wireframes, prototypes, and visual mockups.",
+            "postedDate" => "2025-11-02",
+            "jobType" => "Full-Time",
+            "experience" => "Entry-Level",
+            "salaryRange" => "55k-70k"
         ],
         [
             "title" => "Graphic Designer",
             "company" => "Designify",
             "location" => "Toronto, ON",
-            "description" => "Develop digital assets, logos, and UI visuals using Adobe XD and Figma.",
-            "postedDate" => "2025-10-20"
-        ],
-        [
-            "title" => "Content Strategist",
-            "company" => "Designify",
-            "location" => "Remote",
-            "description" => "Plan and manage brand messaging and web content strategies.",
-            "postedDate" => "2025-09-12"
+            "description" => "Design visual assets and digital illustrations.",
+            "postedDate" => "2025-10-20",
+            "jobType" => "Volunteer",
+            "experience" => "Mid-Level",
+            "salaryRange" => "50k-65k"
         ],
         [
             "title" => "Marketing Coordinator",
             "company" => "Designify",
             "location" => "Calgary, AB",
-            "description" => "Coordinate marketing campaigns and assist with digital advertising.",
-            "postedDate" => "2025-08-14"
+            "description" => "Coordinate and plan marketing campaigns.",
+            "postedDate" => "2025-08-14",
+            "jobType" => "Full-Time",
+            "experience" => "Entry-Level",
+            "salaryRange" => "45k-55k"
+        ],
+
+        // CloudEdge
+        [
+            "title" => "DevOps Engineer",
+            "company" => "CloudEdge",
+            "location" => "Remote",
+            "description" => "Manage CI/CD pipelines and AWS infrastructure.",
+            "postedDate" => "2025-10-10",
+            "jobType" => "Remote",
+            "experience" => "Senior",
+            "salaryRange" => "95k-120k"
         ],
         [
-            "title" => "Client Success Manager",
-            "company" => "Designify",
-            "location" => "Edmonton, AB",
-            "description" => "Maintain long-term client relationships and ensure satisfaction.",
-            "postedDate" => "2025-07-28"
+            "title" => "System Administrator",
+            "company" => "CloudEdge",
+            "location" => "Toronto, ON",
+            "description" => "Maintain Linux servers and network infrastructure.",
+            "postedDate" => "2025-09-05",
+            "jobType" => "Full-Time",
+            "experience" => "Mid-Level",
+            "salaryRange" => "70k-85k"
+        ],
+
+        // CodeWave
+        [
+            "title" => "Junior Web Developer",
+            "company" => "CodeWave",
+            "location" => "Mississauga, ON",
+            "description" => "Assist in building small web apps using JavaScript and PHP.",
+            "postedDate" => "2025-11-05",
+            "jobType" => "Full-Time",
+            "experience" => "Entry-Level",
+            "salaryRange" => "45k-55k"
+        ],
+        [
+            "title" => "Mobile App Developer",
+            "company" => "CodeWave",
+            "location" => "Remote",
+            "description" => "Develop Android and iOS applications using Flutter.",
+            "postedDate" => "2025-10-29",
+            "jobType" => "Remote",
+            "experience" => "Mid-Level",
+            "salaryRange" => "75k-90k"
+        ],
+        [
+            "title" => "Tech Support Specialist",
+            "company" => "CodeWave",
+            "location" => "Calgary, AB",
+            "description" => "Provide tier 2 support for enterprise software clients.",
+            "postedDate" => "2025-09-20",
+            "jobType" => "Volunteer",
+            "experience" => "Entry-Level",
+            "salaryRange" => "40k-50k"
+        ],
+        [
+            "title" => "IT Project Coordinator",
+            "company" => "CodeWave",
+            "location" => "Toronto, ON",
+            "description" => "Assist project managers and track sprint progress.",
+            "postedDate" => "2025-08-10",
+            "jobType" => "Volunteer",
+            "experience" => "Mid-Level",
+            "salaryRange" => "60k-75k"
+        ],
+        [
+            "title" => "Security Engineer",
+            "company" => "CodeWave",
+            "location" => "Ottawa, ON",
+            "description" => "Implement and monitor network security systems.",
+            "postedDate" => "2025-07-25",
+            "jobType" => "Full-Time",
+            "experience" => "Senior",
+            "salaryRange" => "100k-130k"
         ]
     ];
 }
