@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             checkbox.type = 'checkbox';
             checkbox.className = 'btn-check';
             checkbox.id = `skill${index}`;
+            checkbox.value = tag;
             checkbox.autocomplete = 'off';
 
             // Create label styled as pill
