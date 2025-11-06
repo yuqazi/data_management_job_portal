@@ -1,0 +1,69 @@
+/* Make dropdown menus float below the navbar (full-width) so they don't push page content */
+/* Anchor the absolute positioning to the navbar */
+.navbar{
+	position: relative;
+	z-index: 1000;
+}
+
+/* Remove per-item positioning; dropdown will be positioned relative to .navbar */
+.nav-item.dropdown{
+	position: static;
+}
+
+.nav-item.dropdown .dropdown-menu{
+	position: absolute !important;
+	top: 100%; /* place directly below the navbar */
+	left: 0;
+	right: 0;
+	width: 100%;
+	margin: 0; /* remove default offsets */
+	display: none; /* Bootstrap toggles .show */
+	background: #fff;
+	border-top: 1px solid rgba(0,0,0,.08);
+	border-bottom: 1px solid rgba(0,0,0,.08);
+	box-shadow: 0 .5rem 1rem rgba(0,0,0,.08);
+	z-index: 2000; /* sit above the page content */
+	transform-origin: top center;
+	transition: transform .12s ease-out, opacity .12s ease-out;
+	opacity: 0;
+}
+
+.nav-item.dropdown .dropdown-menu.show{
+	display: block;
+	transform: translateY(6px);
+	opacity: 1;
+}
+
+/* Mobile fallback: let the menu behave normally in the flow on very small screens */
+@media (max-width: 575.98px){
+	.nav-item.dropdown .dropdown-menu{
+		position: static !important;
+		width: 100%;
+		box-shadow: none;
+		border: none;
+		opacity: 1;
+		transform: none;
+	}
+}
+
+/* Slight padding tweak for dropdown items */
+.dropdown-item{
+	padding: .5rem 1rem;
+}
+
+/* Centered hero section with a single text input */
+.hero{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: calc(100vh - 64px); /* leave room for navbar height (approx) */
+	padding: 2rem 1rem;
+}
+.hero .center-box{
+	width: 100%;
+	max-width: 640px;
+}
+.hero .form-control{
+	font-size: 1.1rem;
+	padding: .75rem 1rem;
+}

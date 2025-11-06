@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Website Title -->
+    <title>Job Portal</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid d-flex flex-row align-items-center" style="overflow-x:auto;">
+            <a class="navbar-brand me-3" href="#">Job Portal</a>
+            <ul class="navbar-nav d-flex flex-row align-items-center gap-3 mb-0 mx-2" style="white-space:nowrap;">
+                <li class="nav-item">
+                    <a class="nav-link" href="index.html">Search</a>
+                </li>
+                <li>
+                    <a class="nav-link active" aria-current="page" href="profile.html">Profile</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <!-- John Doe Card -->
+        <div class="card my-2 border border-dark">
+            <div class="d-flex flex-row justify-content-between">
+                <div class="card-body">
+                    <h3 class="card-title" id="username">John Doe</h3>
+                    <p class="card-text" id="userEmail"><strong>Email:</strong></p>
+                    <p class="card-text" id="userNumber"><strong>Phone Number:</strong></p>
+                </div>
+
+                <div class="card-body col text-end">
+                    <p>Insert User Profile Image Here</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-2">
+            <div class="col-8">
+
+                <!-- About Me & Skills Row -->
+                <div class="card mb-2 p-3 border border-success">
+                    <h5 class="card-title">About Me:</h5>
+                    <p class="card-body" id="userDescription">Hello World</p>
+                </div>
+
+                <!-- Work Experience Section -->
+                <div class="card p-3 mb-2 border border-primary">
+                    <h5 class="card-title">Work Experience</h5>
+                    <ul id="jobsList" class="list-group list-group-flush"></ul>
+                </div>
+
+                <!-- Certifications Section -->
+                <div class="card p-3 mb-2 border border-warning">
+                    <h5 class="card-title">Certifications</h5>
+                    <ul id="certificationsList" class="list-group list-group-flush"></ul>
+                </div>
+
+
+            </div>
+
+            <div class="col-4">
+                <div class="card text-center border border-secondary">
+                    <div class="card-body my-2">
+                        <h5 class="card-title">Skills</h5>
+                        <ul class="d-flex align-content-start flex-wrap justify-content-center list-unstyled"
+                            id="skillsList">
+                            <li class="list-group-item p-2 m-1 border border-dark rounded-pill">HTML</li>
+                            <li class="list-group-item p-2 m-1 border border-dark rounded-pill">CSS</li>
+                            <li class="list-group-item p-2 m-1 border border-dark rounded-pill">JavaScript</li>
+                            <li class="list-group-item p-2 m-1 border border-dark rounded-pill">Python</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Javascript Files -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="profile.js"></script>
+</body>
+
+</html>
