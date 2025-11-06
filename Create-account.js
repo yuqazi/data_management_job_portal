@@ -1,16 +1,44 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const skillTags = document.getElementById('skillTags');
+    const form = document.querySelector('form');
 
-    skillTags.addEventListener('change', function(event) {
-        const checkbox = event.target;
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-        if (checkbox.classList.contains('btn-check')) {
-            const label = checkbox.nextElementSibling;
-            if (checkbox.checked) {
-                label.classList.add('btn-primary');
-            } else {
-                label.classList.remove('btn-primary');
-            }
+        // Make sure passwords match
+        const password = document.getElementById('passwordInput').value;
+        const confirmPassword = document.getElementById('confirmPasswordInput').value;
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        // Get selected skills (assuming your tags are already handled)
+        const skillContainer = document.getElementById('skillTags');
+        const selectedSkills = Array.from(skillContainer.querySelectorAll('input:checked'))
+                                    .map(input => input.nextElementSibling.textContent);
+
+        const payload = {
+            name: document.getElementById('nameInput').value,
+            email: document.getElementById('emailInput').value,
+            password: password,
+            skills: selectedSkills
+        };
+
+        try {
+            const res = await fetch('SignUpController.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+            alert(data.message);
+
+            if (data.success) form.reset();
+        } catch (err) {
+            console.error(err);
+            alert('Error creating account');
         }
     });
 });
