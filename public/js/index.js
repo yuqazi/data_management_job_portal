@@ -23,7 +23,9 @@ function loadJobs(page = 1) {
     params.append(key, value);
   }
 
-  fetch(`indexController.php?${params.toString()}`)
+  // Call the backend controller using an absolute path so the request resolves
+  // correctly regardless of where the HTML file lives on disk.
+  fetch(`/app/Controllers/indexController.php?${params.toString()}`)
     .then(res => res.json())
     .then(data => {
       const jobs = data.jobs || [];
@@ -39,8 +41,9 @@ function loadJobs(page = 1) {
       }
 
       jobs.forEach(job => {
-        const jobCard = document.createElement('a');
-        jobCard.href = 'apply.html';
+  const jobCard = document.createElement('a');
+  // Link to the apply page using absolute path so it resolves from the web root
+  jobCard.href = '/apply.html';
         jobCard.className = 'list-group-item list-group-item-action d-flex justify-content-between gap-2';
         jobCard.innerHTML = `
           <div class="col-8">

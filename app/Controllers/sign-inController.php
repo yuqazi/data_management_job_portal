@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json');
-require_once 'sign-inModel.php';
+// Require the model via a correct relative path from this controller file
+require_once __DIR__ . '/../Models/sign-inModel.php';
 
 $input = json_decode(file_get_contents("php://input"), true);
 $email = trim($input['email'] ?? '');

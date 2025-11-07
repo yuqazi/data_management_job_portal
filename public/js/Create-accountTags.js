@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     const skillContainer = document.getElementById('skillTags');
 
     try {
-        // Fetch tags from controller
-        const res = await fetch('tagController.php');
+    // Fetch tags from controller using absolute path so the request resolves
+    // correctly from the web root.
+    const res = await fetch('/app/Controllers/tagController.php');
         const tags = await res.json();
 
         // Create checkboxes and labels dynamically

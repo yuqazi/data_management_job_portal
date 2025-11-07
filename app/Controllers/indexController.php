@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json');
-require_once 'indexModel.php';
+// Correct relative path: from app/Controllers to app/Models is ../Models
+require_once __DIR__ . '/../Models/indexModel.php';
 
 // Pagination params
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;

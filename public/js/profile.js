@@ -1,7 +1,9 @@
 // Example: select which user to load
 const userId = 2; // Change this to 1, 2, etc. to test different users
 
-fetch(`profileController.php?id=${userId}`)
+// Fetch profile data from the backend controller using an absolute path
+// so the request resolves correctly from the web root.
+fetch(`/app/Controllers/profileController.php?id=${userId}`)
   .then(response => {
     if (!response.ok) {
       throw new Error('Network response was not ok');

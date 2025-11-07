@@ -1,6 +1,7 @@
 <?php
 // controller/CreateAccountController.php
-require_once 'Create-accountModel.php';
+// Require model using correct relative path from this controller
+require_once __DIR__ . '/../Models/Create-accountModel.php';
 
 header('Content-Type: application/json');
 

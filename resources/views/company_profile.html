@@ -10,7 +10,8 @@
 
     <!-- CSS Files -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../public/css/styles.css">
+    <!-- Use absolute path to public assets so browser can resolve regardless of view file location -->
+    <link rel="stylesheet" href="/public/css/styles.css">
 </head>
 
 <body>
@@ -20,13 +21,13 @@
             <a class="navbar-brand me-3" href="#">Job Portal</a>
             <ul class="navbar-nav d-flex flex-row align-items-center gap-3 mb-0 mx-2" style="white-space:nowrap;">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Search</a>
+                    <a class="nav-link" href="/index.html">Search</a>
                 </li>
                 <li>
-                    <a class="nav-link" href="create_job.html">Create Job</a>
+                    <a class="nav-link" href="/create_job.html">Create Job</a>
                 </li>
                 <li>
-                    <a class="nav-link active" aria-current="page" href="profile.html">Profile</a>
+                    <a class="nav-link active" aria-current="page" href="/profile.html">Profile</a>
                 </li>
             </ul>
         </div>
@@ -51,13 +52,13 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Job Postings</h5>
-                <a href="create_job.html" class="text-decoration-none">
+                <a href="/create_job.html" class="text-decoration-none">
                     <button class="btn btn-primary">Create Job</button>
                 </a>
             </div>
             <div class="list-group list-group-flush overflow-auto" style="max-height: 600px;">
 
-                <a href="applications.html" class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
+                <a href="/applications.html" class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
                     <div class="col-8">
                         <h6 class="mb-1">Data Scientist</h6>
                         <p class="mb-1">We are looking for a talented data scientist to join our team.</p>
@@ -69,7 +70,7 @@
                     </div>
                 </a>
 
-                <a href="applications.html" class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
+                <a href="/applications.html" class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
                     <div class="col-8">
                         <h6 class="mb-1">Frontend Developer</h6>
                         <p class="mb-1">We are looking for a talented Frontend Developer to join our team.</p>
@@ -81,7 +82,7 @@
                     </div>
                 </a>
 
-                <a href="applications.html" class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
+                <a href="/applications.html" class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
                     <div class="col-8">
                         <h6 class="mb-1">Software Architect</h6>
                         <p class="mb-1">We are looking for a talented Software Architect to join our team.</p>
@@ -94,10 +95,10 @@
                 </a>
 
 
-                <a href="applications.html" class="list-group-item list-group-item-action">... (Another Posting) ...</a>
-                <a href="applications.html" class="list-group-item list-group-item-action">... (Another Posting) ...</a>
-                <a href="applications.html" class="list-group-item list-group-item-action">... (Another Posting) ...</a>
-                <a href="applications.html" class="list-group-item list-group-item-action">... (Another Posting) ...</a>
+                <a href="/applications.html" class="list-group-item list-group-item-action">... (Another Posting) ...</a>
+                <a href="/applications.html" class="list-group-item list-group-item-action">... (Another Posting) ...</a>
+                <a href="/applications.html" class="list-group-item list-group-item-action">... (Another Posting) ...</a>
+                <a href="/applications.html" class="list-group-item list-group-item-action">... (Another Posting) ...</a>
             </div>
         </div>
     </div>

@@ -95,7 +95,9 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         try {
-            const response = await fetch("Create-accountController.php", {
+            // Post to the controller using an absolute path so the request resolves
+            // correctly from the web root.
+            const response = await fetch("/app/Controllers/Create-accountController.php", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -104,7 +106,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
 
             if (result.success) {
-                window.location.href = "home.html";
+                // Redirect to the index/search page after successful account creation
+                window.location.href = "/index.html";
             } else {
                 showError(emailInput, result.error || "An error occurred.");
             }
