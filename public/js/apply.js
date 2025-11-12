@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     try {
-        // 1️⃣ Fetch job details
+        // Fetch job details
         const jobResponse = await fetch(`/api/job.php?id=${jobId}`);
         if (!jobResponse.ok) throw new Error("Failed to load job info.");
         const job = await jobResponse.json();
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <p class="card-text"><strong>Salary:</strong> ${job.salary || "Not specified"}</p>
         `;
 
-        // 2️⃣ Fetch job questions
+        // Fetch job questions
         const questionsResponse = await fetch(`/api/job_questions.php?job_id=${jobId}`);
         if (!questionsResponse.ok) throw new Error("Failed to load questions.");
         const questions = await questionsResponse.json();
