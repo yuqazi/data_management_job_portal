@@ -1,7 +1,7 @@
 <?php
 // models/UserModel.php
 
-class UserModel
+class UserModelTest
 {
 
     // Simulated user database
