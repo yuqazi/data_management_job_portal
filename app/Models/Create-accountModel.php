@@ -1,50 +1,31 @@
 <?php
 // model/UserModel.php
+require_once ('../../config.php');
 
 class UserModel {
-    private $dataFile;
-
-    public function __construct() {
-        // Save JSON file inside "data" folder
-        $this->dataFile = __DIR__ . '/../data/users.json';
-
-        // Create folder/file if missing
-        if (!file_exists(dirname($this->dataFile))) {
-            mkdir(dirname($this->dataFile), 0777, true);
-        }
-        if (!file_exists($this->dataFile)) {
-            file_put_contents($this->dataFile, json_encode([]));
-        }
-    }
-
-    public function createUser($name, $email, $phone, $password, $about, $skills) {
-        $users = json_decode(file_get_contents($this->dataFile), true);
-
-        // Prevent duplicate email
-        foreach ($users as $user) {
-            if ($user['email'] === $email) {
-                return ["success" => false, "error" => "Email already exists"];
-            }
-        }
-
+    public static function createUser($name, $email, $phone, $password, $about, $skills): bool
+    {
+        global $pdo;
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO users (name, email, phone, password, about, skills)"
+            . "VALUES (:name, :email, :phone, :password, :about, :skills)";
 
-        $newUser = [
-            "id" => uniqid(),
-            "name" => $name,
-            "email" => $email,
-            "phone" => $phone,
-            "password" => $hashedPassword,
-            "about" => $about,
-            "skills" => $skills,
-            "created_at" => date("Y-m-d H:i:s")
-        ];
+        $stmt = $pdo->prepare($sql);
 
-        $users[] = $newUser;
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':phone', $phone);
+        $stmt->bindParam(':password', $hashedPassword);
+        $stmt->bindParam(':about', $about);
+        $stmt->bindParam(':skills', $skills);
 
-        file_put_contents($this->dataFile, json_encode($users, JSON_PRETTY_PRINT));
-
-        return ["success" => true, "user" => $newUser];
+        try{
+            $stmt->execute();
+            return true;
+        }catch(PDOException $e){
+            error_log($e->getMessage());
+            return false;
+        }
     }
 }
 ?>
