@@ -96,4 +96,73 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Load first page on startup
   loadJobs(currentPage);
+
+
+  // Load and render skills chart
+  // fetch('/app/Controllers/indexController.php')
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     const ctx = document.getElementById('skillsChart').getContext('2d');
+  //     const skills = data.skills || [];
+  //     const counts = data.counts || [];
+  //     new Chart(ctx, {
+  //       type: 'bar',
+  //       data: {
+  //         labels: skills,
+  //         datasets: [{
+  //           label: 'Number of Jobs Requiring Skill',
+  //           data: counts,
+  //           backgroundColor: 'rgba(54, 162, 235, 0.6)',
+  //           borderColor: 'rgba(54, 162, 235, 1)',
+  //           borderWidth: 1
+  //         }]
+  //       },
+  //       options: {
+  //         scales: {
+  //           y: {
+  //             beginAtZero: true,
+  //             precision: 0
+  //           }
+  //         }
+  //       }
+  //     });
+  //   })
+  //   .catch(err => {
+  //     console.error('Error loading skills chart data:', err);
+  //   });
+
+
+  const ctx = document.getElementById('skillsChart').getContext('2d');
+  const skills = ['Python', 'SQL', 'R', 'Excel', 'Tableau', 'Power BI', 'Java', 'C++'];
+  const counts = [25, 20, 15, 30, 10, 12, 8, 5]; // Example static data
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: skills,
+      datasets: [{
+        label: 'Number of Jobs Requiring Skill',
+        data: counts,
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          precision: 0
+        }
+      }
+    }
+  });
+
 });
