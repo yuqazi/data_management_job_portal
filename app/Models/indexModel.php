@@ -1,7 +1,32 @@
 <?php
 // indexModel.php
+require_once 'config.php';
 
 function getAllJobs() {
+
+    global $pdo;
+
+    $sql = "SELECT j.title, o.name AS company, j.address AS location, j.desc AS description, j.hours AS jobType, e.duration AS experience, j.pay AS salaryRange
+            FROM jobs j, org o, exp_want e, skills_want sw, skills s
+            WHERE j.orgRSN = o.orgRSN
+            AND e.jobRSN = j.jobRSN
+
+            --AND sw.jobRSN = j.jobRSN
+            --AND sw.skillRSN = s.skillRSN
+            --AND s.skill = inputskill
+
+            --AND j.pay < lowerInput
+            --AND j.pay > upperInput
+
+            --AND j.hours = inputType
+            ;";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $jobs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $jobs;
+
+    /*
     return [
         // TechCorp
         [
@@ -173,5 +198,6 @@ function getAllJobs() {
             "salaryRange" => "100k-130k"
         ]
     ];
+    */
 }
 ?>
