@@ -51,19 +51,28 @@
 
                 <!-- About Me & Skills Row -->
                 <div class="card mb-2 p-3 border border-success">
-                    <h5 class="card-title">About Me:</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">About Me:</h5>
+                        <button id="editDescriptionBtn" class="btn btn-success btn-sm mb-2">Edit Description</button>
+                    </div>
                     <p class="card-body" id="userDescription">Hello World</p>
                 </div>
 
                 <!-- Work Experience Section -->
                 <div class="card p-3 mb-2 border border-primary">
-                    <h5 class="card-title">Work Experience</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">Work Experience</h5>
+                        <button id="addExperienceBtn" class="btn btn-success btn-sm mb-2">Add Work Experience</button>
+                    </div>
                     <ul id="jobsList" class="list-group list-group-flush"></ul>
                 </div>
 
                 <!-- Certifications Section -->
                 <div class="card p-3 mb-2 border border-warning">
-                    <h5 class="card-title">Certifications</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="card-title">Certifications</h5>
+                        <button id="addCertificationBtn" class="btn btn-success btn-sm mb-2">Add Certification</button>
+                    </div>
                     <ul id="certificationsList" class="list-group list-group-flush"></ul>
                 </div>
 
