@@ -40,12 +40,10 @@ function authenticateUser($email, $password) {
     	        END AS role
             FROM people p
             LEFT JOIN org o ON p.email = o.email
-            WHERE p.email = :email
-            AND p.password = :password;";
+            WHERE p.email = :email;";
     
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $hashedPassword);
     $stmt->execute();
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     
@@ -59,6 +57,7 @@ function authenticateUser($email, $password) {
             "role" => $user['role'] ? 'employer' : 'applicant'
         ];
     }
+    error_log("Incorrect email or password for email: " . $email);
     return null;
 }
 ?>
