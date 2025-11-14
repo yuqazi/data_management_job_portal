@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // 1️⃣ Fetch company info
+        // Fetch company info
         const companyResponse = await fetch(`/api/company.php?id=${companyId}`);
         if (!companyResponse.ok) throw new Error("Failed to load company info.");
         const company = await companyResponse.json();
@@ -20,12 +20,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.querySelector(".card-title").textContent = company.name || "Unknown Company";
         document.querySelector(".card-text").innerHTML = `<strong>Website:</strong> ${company.website || "N/A"}`;
 
-        // 2️⃣ Fetch job postings for this company
+        // Fetch job postings for this company
         const jobsResponse = await fetch(`/api/company_jobs.php?company_id=${companyId}`);
         if (!jobsResponse.ok) throw new Error("Failed to load company jobs.");
         const jobs = await jobsResponse.json();
 
-        // 3️⃣ Render job postings
+        // Render job postings
         const jobList = document.querySelector(".list-group");
         jobList.innerHTML = ""; // Clear default placeholders
 
@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <div class="text-end col-4">
                         <small class="text-muted d-block">${formatDate(job.created_at)}</small>
                         <p class="mb-1">${job.applicant_count || 0} applicants</p>
+                        <button class="btn btn-danger btn-sm remove-btn" data-job-id="${job.id}">Remove Posting</button>
                     </div>
                 `;
 
