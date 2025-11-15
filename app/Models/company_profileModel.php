@@ -115,8 +115,16 @@ class company_profileModel{
         }
 
         fclose($output);
+    }
 
+    
+    function DeleteJob($jobId){
+        global $pdo;
 
+        $sql = "DELETE FROM jobs WHERE jobRSN = :jobId;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':jobId', $jobId);
+        return $stmt->execute();
     }
 
 }
