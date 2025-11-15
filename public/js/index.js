@@ -23,8 +23,9 @@ function loadJobs(page = 1) {
     params.append(key, value);
   }
 
-  // Call the backend controller using an absolute path so the request resolves
-  // correctly regardless of where the HTML file lives on disk.
+  // -------------------------------------------------------
+  // ✔ Correct fetch path for your folder structure
+  // -------------------------------------------------------
   fetch(`/app/Controllers/indexController.php?${params.toString()}`)
     .then(res => res.json())
     .then(data => {
@@ -41,10 +42,10 @@ function loadJobs(page = 1) {
       }
 
       jobs.forEach(job => {
-  const jobCard = document.createElement('a');
-  // Link to the apply page using absolute path so it resolves from the web root
-  jobCard.href = '/apply.html';
+        const jobCard = document.createElement('a');
+        jobCard.href = '/apply.html';
         jobCard.className = 'list-group-item list-group-item-action d-flex justify-content-between gap-2';
+
         jobCard.innerHTML = `
           <div class="col-8">
             <h6 class="mb-1">${job.title}</h6>
@@ -59,7 +60,6 @@ function loadJobs(page = 1) {
         jobsList.appendChild(jobCard);
       });
 
-      // Pagination buttons
       prevBtn.disabled = data.page <= 1;
       const totalPages = Math.ceil(data.totalJobs / data.limit);
       nextBtn.disabled = data.page >= totalPages;
@@ -70,7 +70,6 @@ function loadJobs(page = 1) {
     });
 }
 
-// Add event listeners for pagination buttons
 document.addEventListener("DOMContentLoaded", () => {
   const prevBtn = document.getElementById('prevPage');
   const nextBtn = document.getElementById('nextPage');
@@ -87,54 +86,18 @@ document.addEventListener("DOMContentLoaded", () => {
     loadJobs(currentPage);
   });
 
-  // Listen to any filter change
   const filtersForm = document.getElementById('filtersForm');
   filtersForm.addEventListener('change', () => {
     currentPage = 1;
     loadJobs(currentPage);
   });
 
-  // Load first page on startup
   loadJobs(currentPage);
-
-
-  // Load and render skills chart
-  // fetch('/app/Controllers/indexController.php')
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     const ctx = document.getElementById('skillsChart').getContext('2d');
-  //     const skills = data.skills || [];
-  //     const counts = data.counts || [];
-  //     new Chart(ctx, {
-  //       type: 'bar',
-  //       data: {
-  //         labels: skills,
-  //         datasets: [{
-  //           label: 'Number of Jobs Requiring Skill',
-  //           data: counts,
-  //           backgroundColor: 'rgba(54, 162, 235, 0.6)',
-  //           borderColor: 'rgba(54, 162, 235, 1)',
-  //           borderWidth: 1
-  //         }]
-  //       },
-  //       options: {
-  //         scales: {
-  //           y: {
-  //             beginAtZero: true,
-  //             precision: 0
-  //           }
-  //         }
-  //       }
-  //     });
-  //   })
-  //   .catch(err => {
-  //     console.error('Error loading skills chart data:', err);
-  //   });
-
 
   const ctx = document.getElementById('skillsChart').getContext('2d');
   const skills = ['Python', 'SQL', 'R', 'Excel', 'Tableau', 'Power BI', 'Java', 'C++'];
-  const counts = [25, 20, 15, 30, 10, 12, 8, 5]; // Example static data
+  const counts = [25, 20, 15, 30, 10, 12, 8, 5];
+
   new Chart(ctx, {
     type: 'bar',
     data: {
@@ -164,5 +127,4 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-
 });
