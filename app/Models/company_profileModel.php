@@ -36,7 +36,7 @@ class company_profileModel{
         }
     }
 
-    public static function exportApplicantions($companyId, $jobId){
+    public static function exportApplications($companyId, $jobId){
         
         global $pdo;
         $sql = "SELECT p.name AS applicant_name, p.email AS applicant_email, a.cover_letter, a.resume_path, p.personRSN as applicant_id

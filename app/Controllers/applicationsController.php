@@ -4,6 +4,7 @@ require_once __DIR__ . '/../Models/applicationsModel.php';
 
 // include a function to get applications by user ID
 $userId = $_GET['user_id'] ?? null;
+$jobId = $_GET['job_id'] ?? null;
 if (!$userId) {
     echo json_encode([
         'success' => false,
@@ -14,7 +15,7 @@ if (!$userId) {
 
 // Get applications from the model
 $applicationsModel = new applicationsModel();
-$applications = $applicationsModel->getApplicationsByUserId($userId);
+$applications = $applicationsModel->getApplicationsByUserIdAndJobID($userId, $jobId);
 
 // Return as JSON
 if ($applications !== null) {
