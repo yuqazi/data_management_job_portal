@@ -3,10 +3,37 @@ require_once 'config.php';
 
 class company_profileModel{
     public static function getCompany($companyId){
-}
+        global $pdo;
+        $sql = "SELECT o.name, o.email, o.telephone, o.location
+                FROM org o 
+                WHERE o.orgRSN = :companyId;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':companyId', $companyId);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($result){
+            return $result;
+        }else{
+            return null;
+        }
+    }
 
     public static function getJobsByCompany($companyId){
-        
+        global $pdo;
+        $sql = "SELECT j.title, j.description, j.pay, j.location, j.job_type, j.hours
+                FROM jobs j
+                WHERE j.orgRSN = :companyId;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':companyId', $companyId);
+        $stmt->execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if($result){
+            return $result;
+        }else{
+            return null;
+        }
     }
 
     public static function exportApplicantions($companyId, $jobId){
