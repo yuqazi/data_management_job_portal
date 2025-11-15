@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <div class="text-end col-4">
                         <small class="text-muted d-block">${formatDate(job.created_at)}</small>
                         <p class="mb-1">${job.applicant_count || 0} applicants</p>
+                        <button class="btn btn-primary btn-sm" data-job-id="$(job.id)">Export As CSV</button>
                         <button class="btn btn-danger btn-sm remove-btn" data-job-id="${job.id}">Remove Posting</button>
                     </div>
                 `;

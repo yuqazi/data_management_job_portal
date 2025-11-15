@@ -52,15 +52,12 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Job Postings</h5>
-                <div>
-                    <button id="exportcsv" class="btn btn-primary">Export CSV</button>
                     <a href="/create_job.html" class="text-decoration-none">
                         <button class="btn btn-primary">Create Job</button>
                     </a>
-                </div>
             </div>
             <div class="list-group list-group-flush overflow-auto" style="max-height: 600px;">
-
+                
                 <a href="/applications.html" class="list-group-item list-group-item-action d-flex justify-content-between gap-2">
                     <div class="col-8">
                         <h6 class="mb-1">Data Scientist</h6>
@@ -70,6 +67,7 @@
                     <div class="text-end col-4">
                         <small class="text-muted d-block">1 day ago</small>
                         <p class="mb-1">(Applicant Amount)</p>
+                        <button id="exportcsv" class="btn btn-primary btn-sm">Export CSV</button>
                         <button id="removeBtn" class="btn btn-danger btn-sm">Remove Posting</button>
                     </div>
                 </a>
