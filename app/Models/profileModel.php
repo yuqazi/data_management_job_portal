@@ -1,6 +1,8 @@
 <?php
 // models/UserModel.php
 
+require_once __DIR__ . '/../../config.php';
+
 class UserModelTest
 {
 
@@ -69,11 +71,52 @@ class UserModelTest
                 ]
             ],
     ];
-
+/*
     // Fetch user by ID
     public static function getUser($userId = 1)
     {
         // Return the user if exists, otherwise return null
         return self::$users[$userId] ?? null;
+    }
+*/
+
+    public static function getUser($userId)
+    {
+        global $pdo;
+        $sql = "SELECT name, email, phone, about, address
+                FROM people
+                WHERE peopleRSN = :userId";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':userId', $userId);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        $sqlSkills = "SELECT skill
+                      FROM skills
+                      WHERE peopleRSN = :userId";
+        $stmtSkills = $pdo->prepare($sqlSkills);
+        $stmtSkills->bindParam(':userId', $userId);
+        $stmtSkills->execute();
+        $skills = $stmtSkills->fetchAll(PDO::FETCH_COLUMN);
+
+        $sqlwork = "SELECT w.title AS title, w.duration AS duration
+                    FROM work_exp w, people p
+                    WHERE p.peopleRSN = w.peopleRSN
+                    AND peopleRSN = :userId;";
+        $stmtWork = $pdo->prepare($sqlwork);
+        $stmtWork->bindParam(':userId', $userId);
+        $stmtWork->execute();
+        $work = $stmtWork->fetchAll(PDO::FETCH_ASSOC);
+
+        $sqlcertifications = "  SELECT c.certificate AS certificate
+                                FROM certificates c, people p
+                                WHERE p.peopleRSN = c.peopleRSN
+                                AND peopleRSN = :userId;";
+        $stmtCertifications = $pdo->prepare($sqlcertifications);
+        $stmtCertifications->bindParam(':userId', $userId);
+        $stmtCertifications->execute();
+        $certifications = $stmtCertifications->fetchAll(PDO::FETCH_ASSOC);
+
+        return $user ?? null, $skills, $work, $certifications;
     }
 }
