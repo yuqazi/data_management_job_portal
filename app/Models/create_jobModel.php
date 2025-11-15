@@ -7,7 +7,7 @@ function createJob($title, $description, $location, $salary, $companyId, $jobTyp
     global $pdo;
 
     $sql = "INSERT INTO jobs (title, desc, location, pay, orgRSN, job_type)
-            VALUES (:title, :description, :location, :salary, :orgRSN, :job_type`);";
+            VALUES (:title, :description, :location, :salary, :orgRSN, :job_type);";
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindParam(':title', $title);
