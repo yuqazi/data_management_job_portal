@@ -200,4 +200,21 @@ function getAllJobs() {
     ];
     */
 }
+
+
+function SkillsGraph() {
+    
+    global $pdo;
+
+    $sql = "SELECT s.name, COUNT(sh.peopleRSN) AS people_count
+            FROM skills s
+            WHERE s.skillRSN = sh.skillRSN
+            GROUP BY s.name
+            ORDER BY people_count DESC
+            LIMIT 5;";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
+    $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $results;
+}
 ?>
