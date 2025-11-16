@@ -12,16 +12,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $name = $data['name'] ?? '';
-    $email = $data['email'] ?? '';
-    $phone = $data['phone'] ?? '';
-    $password = $data['password'] ?? '';
-    $address = $data['address'] ?? '';
+    $name = trim($data['name'] ?? '');
+    $email = trim($data['email'] ?? '');
+    $phone = preg_replace('/\D/', '', $data['phone'] ?? '');
+    $location = trim($data['location'] ?? '');
 
-    $orgModel = new OrgModel();
-    $result = $orgModel->createOrg($name, $email, $phone, $password, $address);
+    // Validation
+    $errors = [];
+    if ($name === '') $errors[] = "Organization name is required.";
+    if ($email === '') $errors[] = "Email is required.";
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Invalid email.";
+    if (strlen($phone) !== 10) $errors[] = "Phone must be 10 digits.";
+    if ($location === '') $errors[] = "Location is required.";
+
+    if (!empty($errors)) {
+        echo json_encode(["success" => false, "error" => implode(' ', $errors)]);
+        exit;
+    }
+
+    // Create org
+    $result = OrgModel::createOrg($name, $phone, $email, $location);
 
     echo json_encode($result);
+    exit;
+
 } else {
     echo json_encode(["success" => false, "error" => "Invalid request method"]);
 }

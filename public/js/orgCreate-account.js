@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.querySelector("form");
+    const form = document.getElementById("orgCreateForm");
+
+    if (!form) {
+        console.error("Form #orgCreateForm not found!");
+        return;
+    }
 
     const nameInput = document.getElementById("nameInput");
     const emailInput = document.getElementById("emailInput");
@@ -9,10 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const aboutInput = document.getElementById("aboutInput");
     const passwordError = document.getElementById("passwordError");
 
-    // PHONE NUMBER: allow only digits and format as (123) 456-7890
+    // PHONE FORMATTER
     phoneInput.addEventListener("input", (e) => {
-        let digits = e.target.value.replace(/\D/g, ""); // remove non-digits
-        if (digits.length > 10) digits = digits.substring(0, 10); // limit to 10 digits
+        let digits = e.target.value.replace(/\D/g, "");
+        if (digits.length > 10) digits = digits.substring(0, 10);
 
         let formatted = digits;
         if (digits.length > 6) {
@@ -26,71 +31,30 @@ document.addEventListener("DOMContentLoaded", () => {
         e.target.value = formatted;
     });
 
-    // Hide all errors when user starts typing again
-    form.querySelectorAll("input, textarea").forEach(input => {
-        input.addEventListener("input", () => {
-            const errorDiv = input.parentElement.querySelector(".error-text");
-            if (errorDiv) errorDiv.style.display = "none";
-        });
-    });
-
+    // Submit Handler
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Clear all old error messages
-        form.querySelectorAll(".error-text").forEach(div => div.style.display = "none");
-
-        let hasError = false;
-
-        // Validation
-        if (nameInput.value.trim() === "") {
-            showError(nameInput, "Organization name is required.");
-            hasError = true;
-        }
-
-        if (emailInput.value.trim() === "") {
-            showError(emailInput, "Email is required.");
-            hasError = true;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim())) {
-            showError(emailInput, "Please enter a valid email address.");
-            hasError = true;
-        }
-
-        const phoneDigits = phoneInput.value.replace(/\D/g, "");
-        if (phoneDigits.length !== 10) {
-            showError(phoneInput, "Please enter a valid 10-digit phone number.");
-            hasError = true;
-        }
-
-        if (passwordInput.value.length < 6) {
-            showError(passwordInput, "Password must be at least 6 characters long.");
-            hasError = true;
-        }
-
+        // Password validation
         if (passwordInput.value !== confirmPasswordInput.value) {
             passwordError.style.display = "block";
-            hasError = true;
+            return;
         } else {
             passwordError.style.display = "none";
         }
 
-        if (aboutInput.value.trim() === "") {
-            showError(aboutInput, "Please enter an address.");
-            hasError = true;
-        }
-
-        if (hasError) return;
+        const phoneDigits = phoneInput.value.replace(/\D/g, "");
 
         const data = {
             name: nameInput.value.trim(),
             email: emailInput.value.trim(),
-            phone: phoneDigits, // only store numeric digits
+            phone: phoneDigits,
             password: passwordInput.value,
-            address: aboutInput.value.trim(),
+            location: aboutInput.value.trim(),
         };
 
         try {
-            const response = await fetch("/app/Controllers/orgCreate-accountController.php", {
+            const response = await fetch("/api/org-create-account", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
@@ -99,27 +63,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
 
             if (result.success) {
-                // Redirect to sign-in after successful org creation
-                window.location.href = "/resources/views/sign-in.html";
+                window.location.href = "/sign-in";
             } else {
-                showError(emailInput, result.error || "An error occurred.");
+                alert(result.error || "An error occurred.");
             }
         } catch (err) {
             console.error(err);
-            showError(emailInput, "Failed to connect to the server.");
+            alert("Failed to connect to server.");
         }
     });
-
-    // Function to display inline errors
-    function showError(inputElement, message) {
-        let errorDiv = inputElement.parentElement.querySelector(".error-text");
-        if (!errorDiv) {
-            errorDiv = document.createElement("div");
-            errorDiv.className = "error-text text-danger mt-1";
-            errorDiv.style.fontSize = "0.9em";
-            inputElement.parentElement.appendChild(errorDiv);
-        }
-        errorDiv.textContent = message;
-        errorDiv.style.display = "block";
-    }
 });
