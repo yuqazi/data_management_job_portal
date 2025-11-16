@@ -1,6 +1,6 @@
 <?php
 // model/UserModel.php
-require_once ('config.php');
+require_once __DIR__ . '/../../config.php';
 
 class UserModel {
     public static function createUser($name, $email, $phone, $password, $about, $skills)
