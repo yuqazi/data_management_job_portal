@@ -1,4 +1,3 @@
-#Data Management Job portal
 Job Portal Data Management System
 
 A web-based platform designed to manage job listings, applicant submissions, and administrative review. The system demonstrates key concepts in database management, server-side scripting, and dynamic website development.
