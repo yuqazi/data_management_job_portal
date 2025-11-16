@@ -65,21 +65,20 @@ Installing
     $db_name = "job_portal";
 
 Executing Program
-  On Windows (XAMPP)
-    1. Open XAMPP Control Panel
-    2. Start:
-        Apache
-        MySQL
-    3. Navigate in your browser to:
-        http://localhost/job_portal/
-    On Linux (LAMP)
+  - On Windows (XAMPP)
+     1. Open XAMPP Control Panel
+     2. Start:
+         - Apache
+         - MySQL
+     3. Navigate in your browser to: http://localhost/job_portal/
+  - On Linux (LAMP)
       Start services:
-        sudo systemctl start apache2
-        sudo systemctl start mysql
+        - sudo systemctl start apache2
+        - sudo systemctl start mysql
       Restart if needed:
-        sudo systemctl restart apache2
+        - sudo systemctl restart apache2
       Access the program:
-        http://your-server-ip/job_portal/
+        - http://your-server-ip/job_portal/
 
 Step-by-Step Execution Summary
   1. Install required software
