@@ -9,10 +9,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const aboutInput = document.getElementById("aboutInput");
     const passwordError = document.getElementById("passwordError");
 
-    // PHONE NUMBER: allow only digits and format as (123) 456-7890
+    // ------------------------------
+    // Phone formatting
+    // ------------------------------
     phoneInput.addEventListener("input", (e) => {
-        let digits = e.target.value.replace(/\D/g, ""); // remove non-digits
-        if (digits.length > 10) digits = digits.substring(0, 10); // limit to 10 digits
+        let digits = e.target.value.replace(/\D/g, "");
+        if (digits.length > 10) digits = digits.substring(0, 10);
 
         let formatted = digits;
         if (digits.length > 6) {
@@ -26,18 +28,21 @@ document.addEventListener("DOMContentLoaded", () => {
         e.target.value = formatted;
     });
 
-    // Hide all errors when user starts typing again
+    // Clear errors on input
     form.querySelectorAll("input, textarea").forEach(input => {
         input.addEventListener("input", () => {
-            const errorDiv = input.parentElement.querySelector(".error-text");
-            if (errorDiv) errorDiv.style.display = "none";
+            const err = input.parentElement.querySelector(".error-text");
+            if (err) err.style.display = "none";
         });
     });
 
+    // ------------------------------
+    // Submit handler
+    // ------------------------------
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        // Clear all old error messages
+        // Hide old errors
         form.querySelectorAll(".error-text").forEach(div => div.style.display = "none");
 
         let hasError = false;
@@ -56,14 +61,14 @@ document.addEventListener("DOMContentLoaded", () => {
             hasError = true;
         }
 
-        const phoneDigits = phoneInput.value.replace(/\D/g, "");
-        if (phoneDigits.length !== 10) {
+        const digits = phoneInput.value.replace(/\D/g, "");
+        if (digits.length !== 10) {
             showError(phoneInput, "Please enter a valid 10-digit phone number.");
             hasError = true;
         }
 
         if (passwordInput.value.length < 6) {
-            showError(passwordInput, "Password must be at least 6 characters long.");
+            showError(passwordInput, "Password must be at least 6 characters.");
             hasError = true;
         }
 
@@ -81,43 +86,55 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (hasError) return;
 
-        // Collect skills
+        // Collect selected skill tags
         const skillElements = document.querySelectorAll("#skillTags input[type='checkbox']:checked");
         const skills = Array.from(skillElements).map(el => el.value);
 
         const data = {
             name: nameInput.value.trim(),
             email: emailInput.value.trim(),
-            phone: phoneDigits, // only store numeric digits
+            phone: digits,
             password: passwordInput.value,
             about: aboutInput.value.trim(),
-            skills,
+            skills
         };
 
         try {
-            // Post to the controller using an absolute path so the request resolves
-            // correctly from the web root.
-            const response = await fetch("/app/Controllers/Create-accountController.php", {
+            // IMPORTANT: no leading slash!
+            const response = await fetch("api/create-account", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
 
-            const result = await response.json();
+            // Read raw server output for debugging
+            const text = await response.text();
+            console.log("SERVER RAW RESPONSE:", text);
+
+            // Avoid invalid JSON crash
+            let result = {};
+            try {
+                result = JSON.parse(text);
+            } catch {
+                showError(emailInput, "Server returned invalid response.");
+                return;
+            }
 
             if (result.success) {
-                // Redirect to the index/search page after successful account creation
-                window.location.href = "/index.html";
+                window.location.href = "/index";
             } else {
                 showError(emailInput, result.error || "An error occurred.");
             }
+
         } catch (err) {
-            console.error(err);
+            console.error("FETCH ERROR:", err);
             showError(emailInput, "Failed to connect to the server.");
         }
     });
 
-    // Function to display inline errors
+    // ------------------------------
+    // Show error helper
+    // ------------------------------
     function showError(inputElement, message) {
         let errorDiv = inputElement.parentElement.querySelector(".error-text");
         if (!errorDiv) {

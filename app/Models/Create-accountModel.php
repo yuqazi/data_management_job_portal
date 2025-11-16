@@ -1,53 +1,62 @@
 <?php
-// model/UserModel.php
 require_once __DIR__ . '/../../config.php';
 
 class UserModel {
     public static function createUser($name, $email, $phone, $password, $about, $skills)
     {
         global $pdo;
+
+        // Hash the password
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO people (name, email, phone, password, about)"
-            . "VALUES (:name, :email, :phone, :password, :about);";
 
-        $stmt = $pdo->prepare($sql);
-
-        $stmt->bindParam(':name', $name);
-        $stmt->bindParam(':email', $email);
-        $stmt->bindParam(':phone', $phone);
-        $stmt->bindParam(':password', $hashedPassword);
-        $stmt->bindParam(':about', $about);
-        $stmt->bindParam(':skills', $skills);
-
-        $sqlcheck = "SELECT * FROM people WHERE email = :email;";
+        // Check if email exists
+        $sqlcheck = "SELECT * FROM people WHERE email = :email";
         $stmtcheck = $pdo->prepare($sqlcheck);
+        $stmtcheck->execute([':email' => $email]);
 
-        $stmtcheck->bindParam(':email', $email);
-
-        $sqlskill = "INSERT INTO skills (people_id, skill) VALUES (:people_id, :skill);";
-        $stmtskill = $pdo->prepare($sqlskill);
-
-
-        try{
-            $stmtcheck->execute();
-            if($stmtcheck->rowCount() > 0){
-                // Email already exists
-                error_log("Email already exists: " . $email);
-                return null;
-            }
-            $stmt->execute();
-            $applicationId = $pdo->lastInsertId(); 
-
-            foreach($skills as $skill){
-                $stmtskill->bindParam(':skill', $skill);
-                $stmtskill->bindParam(':people_id', $applicationId);
-                $stmtskill->execute();
-            }           
-            return $applicationId;
-        }catch(PDOException $e){
-            error_log($e->getMessage());
-            return null;
+        if ($stmtcheck->rowCount() > 0) {
+            return ['success' => false, 'error' => 'Email already exists'];
         }
+
+        // Insert into people
+        $sql = "INSERT INTO people (name, email, telephone, password, about)
+                VALUES (:name, :email, :telephone, :password, :about)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':name' => $name,
+            ':email' => $email,
+            ':telephone' => $phone,
+            ':password' => $hashedPassword,
+            ':about' => $about
+        ]);
+
+        $userId = $pdo->lastInsertId();
+
+// Insert skills into skills_has
+$sqlSkillLookup = "SELECT skill_id FROM skills WHERE skill = :skill LIMIT 1";
+$stmtSkillLookup = $pdo->prepare($sqlSkillLookup);
+
+$sqlInsertSkill = "INSERT INTO skills_has (skill_id, people_id)
+                   VALUES (:skill_id, :people_id)";
+$stmtInsertSkill = $pdo->prepare($sqlInsertSkill);
+
+foreach ($skills as $skill) {
+
+    // Look up the skill_id based on the skill name
+    $stmtSkillLookup->execute([':skill' => $skill]);
+    $skillRow = $stmtSkillLookup->fetch(PDO::FETCH_ASSOC);
+
+    if ($skillRow) {
+        // Insert relationship into skills_has
+        $stmtInsertSkill->execute([
+            ':skill_id'  => $skillRow['skill_id'],
+            ':people_id' => $userId
+        ]);
+    }
+}
+
+
+        return ['success' => true, 'userId' => $userId];
     }
 }
 ?>
