@@ -24,7 +24,7 @@ class UserModel {
 
         $stmtcheck->bindParam(':email', $email);
 
-        $sqlskill = "INSERT INTO skills (peopleRSN, skill) VALUES (:peopleRSN, :skill);";
+        $sqlskill = "INSERT INTO skills (people_id, skill) VALUES (:people_id, :skill);";
         $stmtskill = $pdo->prepare($sqlskill);
 
 
@@ -40,7 +40,7 @@ class UserModel {
 
             foreach($skills as $skill){
                 $stmtskill->bindParam(':skill', $skill);
-                $stmtskill->bindParam(':peopleRSN', $applicationId);
+                $stmtskill->bindParam(':people_id', $applicationId);
                 $stmtskill->execute();
             }           
             return $applicationId;

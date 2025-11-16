@@ -6,15 +6,15 @@ function createJob($title, $description, $location, $salary, $companyId, $jobTyp
 {
     global $pdo;
 
-    $sql = "INSERT INTO jobs (title, desc, location, pay, orgRSN, job_type)
-            VALUES (:title, :description, :location, :salary, :orgRSN, :job_type);";
+    $sql = "INSERT INTO jobs (title, desc, location, pay, org_id, job_type)
+            VALUES (:title, :description, :location, :salary, :org_id, :job_type);";
     $stmt = $pdo->prepare($sql);
 
     $stmt->bindParam(':title', $title);
     $stmt->bindParam(':description', $description);
     $stmt->bindParam(':location', $location);
     $stmt->bindParam(':salary', $salary);
-    $stmt->bindParam(':orgRSN', $companyId);
+    $stmt->bindParam(':org_id', $companyId);
     $stmt->bindParam(':job_type', $jobType);
 
     try {

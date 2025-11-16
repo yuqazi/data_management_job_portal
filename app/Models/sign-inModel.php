@@ -31,7 +31,7 @@ function authenticateUser($email, $password) {
     global $pdo;
 
     // SQL query to fetch user while org has no password field
-    $sql = "SELECT 	p.personRSN AS userID,
+    $sql = "SELECT 	p.person_id AS userID,
                 p.email AS email, 
 	            p.password AS password,
 	            CASE 

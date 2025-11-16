@@ -6,7 +6,7 @@ class company_profileModel{
         global $pdo;
         $sql = "SELECT o.name, o.email, o.telephone, o.location
                 FROM org o 
-                WHERE o.orgRSN = :companyId;";
+                WHERE o.org_id = :companyId;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':companyId', $companyId);
         $stmt->execute();
@@ -23,7 +23,7 @@ class company_profileModel{
         global $pdo;
         $sql = "SELECT j.title, j.description, j.pay, j.location, j.job_type, j.hours
                 FROM jobs j
-                WHERE j.orgRSN = :companyId;";
+                WHERE j.org_id = :companyId;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':companyId', $companyId);
         $stmt->execute();
@@ -39,12 +39,12 @@ class company_profileModel{
     public static function exportApplications($companyId, $jobId){
         
         global $pdo;
-        $sql = "SELECT p.name AS applicant_name, p.email AS applicant_email, a.cover_letter, a.resume_path, p.personRSN as applicant_id
+        $sql = "SELECT p.name AS applicant_name, p.email AS applicant_email, a.cover_letter, a.resume_path, p.person_id as applicant_id
                 FROM application a
-                JOIN people p ON a.peopleRSN = p.personRSN
-                JOIN jobs j ON a.jobRSN = j.jobRSN
-                JOIN org o ON j.orgRSN = o.orgRSN
-                WHERE o.orgRSN = :companyId AND j.jobRSN = :jobId;";
+                JOIN people p ON a.people_id = p.person_id
+                JOIN jobs j ON a.job_id = j.job_id
+                JOIN org o ON j.org_id = o.org_id
+                WHERE o.org_id = :companyId AND j.job_id = :jobId;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':companyId', $companyId);
         $stmt->bindParam(':jobId', $jobId);
@@ -53,17 +53,17 @@ class company_profileModel{
 
         $sqlquestioncount = "SELECT COUNT(*) AS question_count
                         FROM job_questions q
-                        WHERE q.jobRSN = :jobId;";
+                        WHERE q.job_id = :jobId;";
         $stmtQuestionCount = $pdo->prepare($sqlquestioncount);
         $stmtQuestionCount->bindParam(':jobId', $jobId);
         $stmtQuestionCount->execute();
         $questionCountResult = $stmtQuestionCount->fetch(PDO::FETCH_ASSOC);
         $questionCount = $questionCountResult ? (int)$questionCountResult['question_count'] : 0;
 
-        $sqlquestion = "SELECT q.questionRSN
+        $sqlquestion = "SELECT q.question_id
                         FROM job_questions q
-                        WHERE q.jobRSN = :jobId
-                        ORDER BY q.questionRSN;";
+                        WHERE q.job_id = :jobId
+                        ORDER BY q.question_id;";
         $stmtQuestions = $pdo->prepare($sqlquestion);
         $stmtQuestions->bindParam(':jobId', $jobId);
         $stmtQuestions->execute();
@@ -71,9 +71,9 @@ class company_profileModel{
 
         $sqlanswer = "SELECT qa.answer
                         FROM question_answers qa
-                        WHERE qa.questionRSN = :questionRSN
-                        AND qa.peopleRSN = :applicantId
-                        ORDER BY qa.questionRSN;";
+                        WHERE qa.question_id = :question_id
+                        AND qa.people_id = :applicantId
+                        ORDER BY qa.question_id;";
         $stmtAnswers = $pdo->prepare($sqlanswer);
 
 
@@ -101,7 +101,7 @@ class company_profileModel{
 
             foreach ($questions as $question) {
 
-                $stmtAnswers->bindParam(':questionRSN', $question['questionRSN']);
+                $stmtAnswers->bindParam(':question_id', $question['question_id']);
                 $stmtAnswers->bindParam(':applicantId', $application['applicant_id']);
                 $stmtAnswers->execute();
                 $answers = $stmtAnswers->fetchAll(PDO::FETCH_ASSOC);
@@ -121,7 +121,7 @@ class company_profileModel{
     function DeleteJob($jobId){
         global $pdo;
 
-        $sql = "DELETE FROM jobs WHERE jobRSN = :jobId;";
+        $sql = "DELETE FROM jobs WHERE job_id = :jobId;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':jobId', $jobId);
         return $stmt->execute();

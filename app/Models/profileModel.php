@@ -85,7 +85,7 @@ class UserModelTest
         global $pdo;
         $sql = "SELECT name, email, phone, about, address
                 FROM people
-                WHERE peopleRSN = :userId";
+                WHERE people_id = :userId";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':userId', $userId);
         $stmt->execute();
@@ -93,7 +93,7 @@ class UserModelTest
 
         $sqlSkills = "SELECT skill
                       FROM skills
-                      WHERE peopleRSN = :userId";
+                      WHERE people_id = :userId";
         $stmtSkills = $pdo->prepare($sqlSkills);
         $stmtSkills->bindParam(':userId', $userId);
         $stmtSkills->execute();
@@ -101,8 +101,8 @@ class UserModelTest
 
         $sqlwork = "SELECT w.title AS title, w.duration AS duration
                     FROM work_exp w, people p
-                    WHERE p.peopleRSN = w.peopleRSN
-                    AND peopleRSN = :userId;";
+                    WHERE p.people_id = w.people_id
+                    AND people_id = :userId;";
         $stmtWork = $pdo->prepare($sqlwork);
         $stmtWork->bindParam(':userId', $userId);
         $stmtWork->execute();
@@ -110,8 +110,8 @@ class UserModelTest
 
         $sqlcertifications = "  SELECT c.certificate AS certificate
                                 FROM certificates c, people p
-                                WHERE p.peopleRSN = c.peopleRSN
-                                AND peopleRSN = :userId;";
+                                WHERE p.people_id = c.people_id
+                                AND people_id = :userId;";
         $stmtCertifications = $pdo->prepare($sqlcertifications);
         $stmtCertifications->bindParam(':userId', $userId);
         $stmtCertifications->execute();
@@ -124,7 +124,7 @@ class UserModelTest
         global $pdo;
         $sql = "UPDATE people
                 SET about = :about
-                WHERE peopleRSN = :userId;";
+                WHERE people_id = :userId;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':about', $about);
         $stmt->bindParam(':userId', $userId);
