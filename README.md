@@ -72,12 +72,12 @@ Executing Program
          - MySQL
      3. Navigate in your browser to: http://localhost/job_portal/
   - On Linux (LAMP)
-      Start services:
+      1. Start services:
         - sudo systemctl start apache2
         - sudo systemctl start mysql
-      Restart if needed:
+      2. Restart if needed:
         - sudo systemctl restart apache2
-      Access the program:
+      3. Access the program:
         - http://your-server-ip/job_portal/
 
 Step-by-Step Execution Summary
