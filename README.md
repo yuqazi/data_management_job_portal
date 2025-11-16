@@ -34,7 +34,7 @@ Getting Started
           - session
           - openssl
           - json
-
+          
     - Database: MySQL 5.7+
     - Optional Tools:
       - Git (version control)
