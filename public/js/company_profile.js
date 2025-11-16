@@ -11,17 +11,28 @@ document.addEventListener("DOMContentLoaded", async () => {
             return;
         }
 
-        // Fetch company info
-        const companyResponse = await fetch(`/api/company.php?id=${companyId}`);
+        // Fetch company info using POST
+        const companyFormData = new FormData();
+        companyFormData.append('companyId', companyId);
+        const companyResponse = await fetch(`/app/Controllers/company_profileController.php`, {
+            method: 'POST',
+            body: companyFormData
+        });
         if (!companyResponse.ok) throw new Error("Failed to load company info.");
         const company = await companyResponse.json();
 
         // Populate company info on the page
         document.querySelector(".card-title").textContent = company.name || "Unknown Company";
-        document.querySelector(".card-text").innerHTML = `<strong>Website:</strong> ${company.website || "N/A"}`;
+        document.querySelector(".card-text").innerHTML = `<strong>Email:</strong> ${company.email || "N/A"}`;
 
         // Fetch job postings for this company
-        const jobsResponse = await fetch(`/api/company_jobs.php?company_id=${companyId}`);
+        const jobsFormData = new FormData();
+        jobsFormData.append('companyId', companyId);
+        jobsFormData.append('type', 'jobs');
+        const jobsResponse = await fetch(`/app/Controllers/company_profileController.php`, {
+            method: 'POST',
+            body: jobsFormData
+        });
         if (!jobsResponse.ok) throw new Error("Failed to load company jobs.");
         const jobs = await jobsResponse.json();
 
@@ -34,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         } else {
             jobs.forEach(job => {
                 const jobItem = document.createElement("a");
-                jobItem.href = `/applications.html?job_id=${job.id}`;
+                jobItem.href = `/index.php/applications?job_id=${job.job_id}`;
                 jobItem.classList.add("list-group-item", "list-group-item-action", "d-flex", "justify-content-between", "gap-2");
 
                 jobItem.innerHTML = `
@@ -44,10 +55,9 @@ document.addEventListener("DOMContentLoaded", async () => {
                         <small class="text-muted">${job.location}</small>
                     </div>
                     <div class="text-end col-4">
-                        <small class="text-muted d-block">${formatDate(job.created_at)}</small>
                         <p class="mb-1">${job.applicant_count || 0} applicants</p>
-                        <button class="btn btn-primary btn-sm" data-job-id="$(job.id)">Export As CSV</button>
-                        <button class="btn btn-danger btn-sm remove-btn" data-job-id="${job.id}">Remove Posting</button>
+                        <button type="button" class="exportcsv-btn btn btn-primary btn-sm" data-job-id="${job.job_id}">Export As CSV</button>
+                        <button type="button" class="remove-btn btn btn-danger btn-sm" data-job-id="${job.job_id}">Remove Posting</button>
                     </div>
                 `;
 
@@ -66,3 +76,78 @@ function formatDate(dateString) {
     const date = new Date(dateString);
     return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
 }
+
+// Event delegation for dynamically created buttons
+document.addEventListener("click", async (event) => {
+    const btn = event.target.closest('button');
+    if (!btn) return;
+
+    // Prevent clicks on buttons inside the parent <a> from triggering navigation
+    event.preventDefault();
+    event.stopPropagation();
+
+    const jobId = btn.getAttribute('data-job-id');
+    // Re-extract companyId from URL each time to avoid scope issues
+    const params = new URLSearchParams(window.location.search);
+    const companyId = params.get('id');
+
+    // Remove posting
+    if (btn.classList.contains('remove-btn')) {
+        if (!jobId) return;
+        if (!confirm('Are you sure you want to remove this job posting?')) return;
+
+        try {
+            const removeFormData = new FormData();
+            removeFormData.append('jobId', jobId);
+            removeFormData.append('companyId', companyId);
+            removeFormData.append('action', 'remove');
+            const response = await fetch(`/app/Controllers/company_profileController.php`, {
+                method: 'POST',
+                body: removeFormData
+            });
+            if (!response.ok) throw new Error('Failed to remove job posting.');
+            const result = await response.json();
+            if (result.success) {
+                alert('Job posting removed successfully.');
+                window.location.reload();
+            } else {
+                alert('Failed to remove job posting.');
+            }
+        } catch (error) {
+            console.error('Error removing job posting:', error);
+            alert('An error occurred while trying to remove the job posting.');
+        }
+    }
+
+    // Export applicants CSV
+    if (btn.classList.contains('exportcsv-btn')) {
+        if (!jobId) return;
+        try {
+            const exportFormData = new FormData();
+            exportFormData.append('jobId', jobId);
+            exportFormData.append('companyId', companyId);
+            exportFormData.append('action', 'export');
+            const response = await fetch(`/app/Controllers/company_profileController.php`, {
+                method: 'POST',
+                body: exportFormData
+            });
+            if (!response.ok) {
+                // try to parse JSON error
+                let errText = await response.text();
+                throw new Error('Failed to export applicants: ' + errText);
+            }
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `applicants_job_${jobId}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error exporting applicants:', error);
+            alert('An error occurred while trying to export applicants.');
+        }
+    }
+});

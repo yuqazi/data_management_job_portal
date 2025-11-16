@@ -21,30 +21,43 @@ class company_profileModel{
 
     public static function getJobsByCompany($companyId){
         global $pdo;
-        $sql = "SELECT j.title, j.description, j.pay, j.location, j.job_type, j.hours
+        $sql = "SELECT j.job_id, j.title, j.description, j.pay, j.location, j.job_type, j.hours, 
+                (SELECT COUNT(*) FROM application WHERE job_id = j.job_id) as applicant_count
                 FROM jobs j
                 WHERE j.org_id = :companyId;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':companyId', $companyId);
         $stmt->execute();
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
         if($result){
             return $result;
         }else{
-            return null;
+            return [];
         }
     }
 
     public static function exportApplications($companyId, $jobId){
         
         global $pdo;
-        $sql = "SELECT p.name AS applicant_name, p.email AS applicant_email, a.cover_letter, a.resume_path, p.person_id as applicant_id
+        $sql = "SELECT 
+                    p.name AS applicant_name,
+                    p.email AS applicant_email,
+                    CASE 
+                        WHEN a.resume_id IS NOT NULL THEN 'Y'
+                        ELSE 'N'
+                    END AS has_resume,
+                    CASE 
+                        WHEN a.coverletter_id IS NOT NULL THEN 'Y'
+                        ELSE 'N'
+                    END AS has_coverletter,
+                    p.people_id AS applicant_id
                 FROM application a
-                JOIN people p ON a.people_id = p.person_id
+                JOIN people p ON a.people_id = p.people_id
                 JOIN jobs j ON a.job_id = j.job_id
                 JOIN org o ON j.org_id = o.org_id
-                WHERE o.org_id = :companyId AND j.job_id = :jobId;";
+                WHERE o.org_id = :companyId 
+                AND j.job_id = :jobId;";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':companyId', $companyId);
         $stmt->bindParam(':jobId', $jobId);
@@ -82,7 +95,7 @@ class company_profileModel{
         header('Content-Disposition: attachment; filename="applications.csv"');
 
         $output = fopen('php://output', 'w');
-        $headers = ['Applicant Name', 'Applicant Email', 'Cover Letter', 'Resume Path'];
+        $headers = ['Applicant Name', 'Applicant Email', 'Cover Letter', 'Resume'];
 
         for ($i=1; $i <= $questionCount; $i++) {
             $headers[] = "Question $i Answer";
@@ -95,8 +108,8 @@ class company_profileModel{
             $line = [
                 $application['applicant_name'],
                 $application['applicant_email'],
-                $application['cover_letter'],
-                $application['resume_path']
+                $application['has_coverletter'],
+                $application['has_resume']
             ];
 
             foreach ($questions as $question) {
@@ -118,7 +131,7 @@ class company_profileModel{
     }
 
     
-    function DeleteJob($jobId){
+    public static function DeleteJob($jobId){
         global $pdo;
 
         $sql = "DELETE FROM jobs WHERE job_id = :jobId;";
