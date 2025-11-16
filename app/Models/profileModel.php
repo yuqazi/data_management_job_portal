@@ -119,4 +119,15 @@ class UserModelTest
 
         return $user ?? null, $skills, $work, $certifications;
     }
+
+    function updateAbout($userId, $about){
+        global $pdo;
+        $sql = "UPDATE people
+                SET about = :about
+                WHERE peopleRSN = :userId;";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':about', $about);
+        $stmt->bindParam(':userId', $userId);
+        return $stmt->execute();
+    }
 }
