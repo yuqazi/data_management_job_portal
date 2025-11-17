@@ -1,37 +1,29 @@
 <?php
-class jobDetailsModel{
-    public static function getJobDetailsById($jobId){
-        global $pdo;
-        $sql = "SELECT j.title, j.description, j.location, j.pay, j.location, j.pay, j.hours, s.skill, s.skillgroup
-                FROM jobs j
-                JOIN skills_want w ON j.job_id = w.job_id
-                JOIN skills s ON s.skill_id = w.skill_id
-                WHERE j.job_id = :jobId";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':jobId', $jobId);
-        $stmt->execute();
+require_once __DIR__ . '/../../config.php';
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($result){
-            return $result;
-        }else{
-            return null;
-        }
-    }
-    public static function getOrgIdByJobId($jobId){
+class JobModel {
+    public static function getJobDetailsById($jobId) {
         global $pdo;
-        $sql = "SELECT j.org_id
-                FROM jobs j
-                WHERE j.job_id = :jobId";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':jobId', $jobId);
-        $stmt->execute();
 
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if($result){
-            return $result;
-        }else{
-            return null;
-        }
+        // Fetch job info
+        $stmt = $pdo->prepare("SELECT * FROM jobs WHERE job_id = :job_id LIMIT 1");
+        $stmt->execute([':job_id' => $jobId]);
+        $job = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$job) return null;
+
+        // Fetch skills wanted for this job
+        $stmtSkills = $pdo->prepare("
+            SELECT s.skill 
+            FROM skills_want sw
+            INNER JOIN skills s ON sw.skill_id = s.skill_id
+            WHERE sw.job_id = :job_id
+        ");
+        $stmtSkills->execute([':job_id' => $jobId]);
+        $skills = $stmtSkills->fetchAll(PDO::FETCH_COLUMN);
+
+        $job['tags'] = $skills;
+
+        return $job;
     }
 }
