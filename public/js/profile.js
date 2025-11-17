@@ -62,7 +62,7 @@ function displayUserProfile(user) {
     certificationsList.innerHTML = '';
     const certs = user.certifications || [];
     certs.forEach(cert => {
-      const name = cert.name || 'Certification';
+      const name = cert.certificate || 'Certification';
 
       const li = document.createElement('li');
       li.className = 'list-group-item mb-3';
