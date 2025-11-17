@@ -54,6 +54,7 @@ $routes = [
     'api/org-create-account' => CONTROLLERS_PATH . 'orgCreate-accountController.php',
     'api/sign-in' => CONTROLLERS_PATH . 'sign-inController.php',
     'api/index' => CONTROLLERS_PATH . 'indexController.php',
+    'api/create-job' => CONTROLLERS_PATH . 'create_jobController.php',
 ];
 
 // ----------------------------------------
