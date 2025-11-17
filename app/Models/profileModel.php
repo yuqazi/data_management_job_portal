@@ -3,131 +3,113 @@
 
 require_once __DIR__ . '/../../config.php';
 
-class UserModelTest
+class UserModel
 {
-
-    // Simulated user database
-    private static $users = [
-        1 => [
-            'id' => 1,
-            'name' => 'John Doe',
-            'description' => 'I am a Software Engineer located on Earth and I am a fun guy :D',
-            'email' => 'example@email.net',
-            'phone' => '123-456-7890',
-            'skills' => ['HTML', 'CSS', 'JavaScript', 'Python', "Communication", "Word", "Excel", "Chicken"],
-            'jobs' => [
-                [
-                    'title' => 'Software Engineer',
-                    'company' => 'Tech Corp',
-                    'duration' => '2018 - Present',
-                    'description' => 'Developing web applications and services.'
-                ],
-                [
-                    'title' => 'Junior Developer',
-                    'company' => 'Web Solutions',
-                    'duration' => '2016 - 2018',
-                    'description' => 'Assisted in the development of client websites.'
-                ]
-            ]
-        ],
-        2 => [
-            'id' => 2,
-            'name' => 'Jane Doe',
-            'description' => 'I am a fun guy :D located on Earth and I am a Software Engineer',
-            'email' => 'email@example.com',
-            'phone' => '123-123-1234',
-            'skills' => ['Example', 'Another Example', 'Yet Another Example', "One More Example", "I'm out of examples"],
-            'jobs' => [
-                [
-                    'title' => 'Example Title',
-                    'company' => 'Example Company',
-                    'duration' => '2020 - Present',
-                    'description' => 'This is an example job description.'
-                ],
-                [
-                    'title' => 'Another Title',
-                    'company' => 'Another Company',
-                    'duration' => '2018 - 2020',
-                    'description' => 'This is another example job description.'
-                ],
-                [
-                    'title' => 'Old Title',
-                    'company' => 'Old Company',
-                    'duration' => '2016 - 2018',
-                    'description' => 'This is an old example job description.'
-                ]
-                ],
-            'certifications' => [
-                [
-                    'name' => 'Certified Example Professional',
-                    'issuer' => 'Example Institute',
-                    'year' => 2019
-                ],
-                [
-                    'name' => 'Advanced Example Specialist',
-                    'issuer' => 'Another Institute',
-                    'year' => 2021
-                ]
-                ]
-            ],
-    ];
-/*
-    // Fetch user by ID
-    public static function getUser($userId = 1)
-    {
-        // Return the user if exists, otherwise return null
-        return self::$users[$userId] ?? null;
-    }
-*/
-
     public static function getUser($userId)
     {
         global $pdo;
-        $sql = "SELECT name, email, phone, about, address
+        
+        // Fetch basic user info
+        $sql = "SELECT name, email, telephone, about, address
                 FROM people
                 WHERE people_id = :userId";
         $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':userId', $userId);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if (!$user) {
+            return null;
+        }
 
-        $sqlSkills = "SELECT skill
-                      FROM skills
-                      WHERE people_id = :userId";
+        // Fetch skills
+        $sqlSkills = "SELECT s.skill
+                      FROM skills s
+                      JOIN skills_has sh ON s.skill_id = sh.skill_id
+                      WHERE sh.people_id = :userId";
         $stmtSkills = $pdo->prepare($sqlSkills);
-        $stmtSkills->bindParam(':userId', $userId);
+        $stmtSkills->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmtSkills->execute();
         $skills = $stmtSkills->fetchAll(PDO::FETCH_COLUMN);
 
+        // Fetch work experience
         $sqlwork = "SELECT w.title AS title, w.duration AS duration
-                    FROM work_exp w, people p
-                    WHERE p.people_id = w.people_id
-                    AND people_id = :userId;";
+                FROM work_exp w
+                WHERE w.people_id = :userId";
         $stmtWork = $pdo->prepare($sqlwork);
-        $stmtWork->bindParam(':userId', $userId);
+        $stmtWork->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmtWork->execute();
         $work = $stmtWork->fetchAll(PDO::FETCH_ASSOC);
 
-        $sqlcertifications = "  SELECT c.certificate AS certificate
-                                FROM certificates c, people p
-                                WHERE p.people_id = c.people_id
-                                AND people_id = :userId;";
+        $sqlcertifications = "SELECT c.certificate AS certificate
+                    FROM certificates c
+                    WHERE c.people_id = :userId";
         $stmtCertifications = $pdo->prepare($sqlcertifications);
-        $stmtCertifications->bindParam(':userId', $userId);
+        $stmtCertifications->bindParam(':userId', $userId, PDO::PARAM_INT);
         $stmtCertifications->execute();
         $certifications = $stmtCertifications->fetchAll(PDO::FETCH_ASSOC);
 
-        return $user ?? null, $skills, $work, $certifications;
+        // Combine all data into a single return structure
+        return [
+            'id' => $userId,
+            'name' => $user['name'] ?? '',
+            'email' => $user['email'] ?? '',
+            'phone' => $user['telephone'] ?? '',
+            'description' => $user['about'] ?? '',
+            'address' => $user['address'] ?? '',
+            'skills' => $skills,
+            'jobs' => $work,
+            'certifications' => $certifications
+        ];
     }
 
-    function updateAbout($userId, $about){
+    public static function updateAbout($userId, $about)
+    {
         global $pdo;
         $sql = "UPDATE people
                 SET about = :about
-                WHERE people_id = :userId;";
+                WHERE people_id = :userId";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':about', $about);
-        $stmt->bindParam(':userId', $userId);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        return $stmt->execute();
+    }
+
+    // Add a new work experience entry
+    public static function addWorkExperience($userId, $title, $duration)
+    {
+        global $pdo;
+        $sql = "INSERT INTO work_exp (people_id, title, duration)
+                VALUES (:userId, :title, :duration)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':title', $title);
+        $stmt->bindParam(':duration', $duration);
+        return $stmt->execute();
+    }
+
+    // Add a new certification entry
+    public static function addCertification($userId, $certificate)
+    {
+        global $pdo;
+        $sql = "INSERT INTO certificates (people_id, certificate)
+                VALUES (:userId, :certificate)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':certificate', $certificate);
+        return $stmt->execute();
+    }
+
+    // Add a new skill
+    public static function addSkill($userId, $skill)
+    {
+        global $pdo;
+        $sql = "INSERT INTO skills_has (people_id, skill_id)
+                VALUES (:userId, :skill)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':userId', $userId, PDO::PARAM_INT);
+        $stmt->bindParam(':skill', $skill);
         return $stmt->execute();
     }
 }
+?>

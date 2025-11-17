@@ -13,6 +13,13 @@ $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 // Remove script name (/index.php) IF present
 $request_uri = str_replace('/index.php', '', $request_uri);
 
+// Detect base folder dynamically
+$script_name = dirname($_SERVER['SCRIPT_NAME']);
+$base_folder = ($script_name === '/') ? '' : $script_name;
+if (strpos($request_uri, $base_folder) === 0) {
+    $request_uri = substr($request_uri, strlen($base_folder));
+}
+
 // Clean up to "index", "login", "api/tags", etc
 $path = trim($request_uri, '/');
 $path = strtolower($path);
