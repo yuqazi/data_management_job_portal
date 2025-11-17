@@ -27,8 +27,12 @@ function loadJobs(page = 1) {
   // ✔ Correct fetch path for your folder structure
   // -------------------------------------------------------
   fetch(`/app/Controllers/indexController.php?${params.toString()}`)
+  
     .then(res => res.json())
     .then(data => {
+
+      console.log("Jobs returned from server:", data.jobs);
+
       const jobs = data.jobs || [];
       const jobsList = document.getElementById('jobsList');
       const prevBtn = document.getElementById('prevPage');
@@ -41,24 +45,26 @@ function loadJobs(page = 1) {
         return;
       }
 
-      jobs.forEach(job => {
-        const jobCard = document.createElement('a');
-        jobCard.href = '/apply.html';
-        jobCard.className = 'list-group-item list-group-item-action d-flex justify-content-between gap-2';
+jobs.forEach(job => {
+    const jobCard = document.createElement('a');
+    // Use job_id here instead of org_id
+    jobCard.href = `/index.php/job-details?job_id=${job.job_id}`;
+    jobCard.className = 'list-group-item list-group-item-action d-flex justify-content-between gap-2';
 
-        jobCard.innerHTML = `
-          <div class="col-8">
-            <h6 class="mb-1">${job.title}</h6>
-            <p class="mb-1">${job.description}</p>
-            <small class="text-muted">${job.location}</small>
-          </div>
-          <div class="text-end col-4">
-            <small class="text-muted d-block">Posted on: ${job.postedDate}</small>
-            <p class="mb-1">${job.company}</p>
-          </div>
-        `;
-        jobsList.appendChild(jobCard);
-      });
+    jobCard.innerHTML = `
+      <div class="col-8">
+        <h6 class="mb-1">${job.title}</h6>
+        <p class="mb-1">${job.description}</p>
+        <small class="text-muted">${job.location}</small>
+      </div>
+      <div class="text-end col-4">
+        <small class="text-muted d-block">Posted on: ${job.postedDate}</small>
+        <p class="mb-1">${job.company}</p>
+      </div>
+    `;
+    jobsList.appendChild(jobCard);
+});
+
 
       prevBtn.disabled = data.page <= 1;
       const totalPages = Math.ceil(data.totalJobs / data.limit);
@@ -93,38 +99,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   loadJobs(currentPage);
-
-  const ctx = document.getElementById('skillsChart').getContext('2d');
-  const skills = ['Python', 'SQL', 'R', 'Excel', 'Tableau', 'Power BI', 'Java', 'C++'];
-  const counts = [25, 20, 15, 30, 10, 12, 8, 5];
-
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: skills,
-      datasets: [{
-        label: 'Number of Jobs Requiring Skill',
-        data: counts,
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins: {
-        legend: {
-          display: true,
-          position: 'top'
-        }
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          precision: 0
-        }
-      }
-    }
-  });
 });

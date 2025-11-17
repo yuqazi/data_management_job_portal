@@ -73,13 +73,28 @@ $allJobs = array_values($allJobs); // reindex after filtering
 $offset = ($page - 1) * $limit;
 $pagedJobs = array_slice($allJobs, $offset, $limit);
 
+// --- Add job_id and org_id by fetching from the DB directly ---
+global $pdo;
+foreach ($pagedJobs as &$job) {
+    $stmt = $pdo->prepare("SELECT job_id, org_id FROM jobs WHERE title = :title AND description = :description LIMIT 1");
+    $stmt->execute([
+        'title' => $job['title'],
+        'description' => $job['description']
+    ]);
+    $ids = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($ids) {
+        $job['job_id'] = $ids['job_id'];
+        $job['org_id'] = $ids['org_id'];
+    }
+}
+unset($job);
+
 // Response
 $response = [
     "page" => $page,
     "limit" => $limit,
     "totalJobs" => count($allJobs),
-    "jobs" => $pagedJobs
+    "jobs" => $pagedJobs,
 ];
 
 echo json_encode($response, JSON_PRETTY_PRINT);
-?>
