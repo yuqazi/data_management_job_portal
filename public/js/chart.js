@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const skills = data.map(item => item.skill);
-        const counts = data.map(item => Number(item.job_count));
+        const counts = data.map(item => Number(item.people_count));
 
         // Destroy previous chart if it exists
         if (skillsChartInstance) {

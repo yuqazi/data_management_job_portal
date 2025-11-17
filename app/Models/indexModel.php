@@ -36,12 +36,12 @@ function getSkillsGraph() {
 
     $sql = "
         SELECT 
-            s.name AS skill,
-            COUNT(sw.job_id) AS job_count
+            s.skill AS skill,
+            COUNT(sh.people_id) AS people_count
         FROM skills s
-        JOIN skills_want sw ON sw.skill_id = s.skill_id
-        GROUP BY s.name
-        ORDER BY job_count DESC
+        JOIN skills_has sh ON sh.skill_id = s.skill_id
+        GROUP BY s.skill
+        ORDER BY people_count DESC
         LIMIT 5
     ";
 
