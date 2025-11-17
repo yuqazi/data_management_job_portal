@@ -1,72 +1,71 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const jobTitle = document.getElementById("jobTitle");
-  const list = document.getElementById("applicationList");
-  const numApplications = document.getElementById("numApplications");
+    const params = new URLSearchParams(window.location.search);
 
-  // Extract jobRSN from URL
-  const urlParams = new URLSearchParams(window.location.search);
-  const jobRSN = urlParams.get("jobRSN");
+    // Accept multiple parameter name variations
+    const jobId =
+        params.get("jobRSN") ||
+        params.get("job_id") ||
+        params.get("id");
 
-  if (!jobRSN) {
-    console.error("Missing jobRSN in URL");
-    if (list) list.innerHTML = `<div class="p-3 text-danger">Missing job identifier.</div>`;
-    return;
-  }
+    const titleEl = document.getElementById("jobTitle");
+    const descEl = document.getElementById("jobDescription");
+    const numEl = document.getElementById("numApplications");
+    const listEl = document.getElementById("applicationList");
 
-  try {
-    // Fetch JSON from PHP controller
-    const res = await fetch(`/app/Controllers/applicationController.php?jobRSN=${jobRSN}`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const data = await res.json();
-
-    if (data.error) {
-      throw new Error(data.error);
+    if (!jobId) {
+        listEl.innerHTML = `<div class="text-danger">Missing job ID in URL.</div>`;
+        return;
     }
 
-    // Update job info
-    if (data.job && jobTitle) {
-      jobTitle.textContent = data.job.title || "(Untitled Job)";
-      const descriptionEl = jobTitle.nextElementSibling;
-      if (descriptionEl) {
-        descriptionEl.innerHTML = `
-          <strong>Description: </strong> ${data.job.description || "(No description provided)"}<br>
-          <strong>Location:</strong> ${data.job.location || "N/A"}<br>
-          <strong>Company:</strong> ${data.job.company || "N/A"}<br>
-          <strong>Pay:</strong> ${data.job.pay ? "$" + data.job.pay : "N/A"}
-        `;
-      }
+    try {
+        const res = await fetch(`/app/Controllers/applicationsController.php?jobRSN=${encodeURIComponent(jobId)}`);
+        if (!res.ok) throw new Error("HTTP " + res.status);
+
+        const data = await res.json();
+
+        // set job title + description
+        if (data.job) {
+            titleEl.textContent = data.job.title || "(Untitled job)";
+            descEl.textContent = data.job.description || "";
+        }
+
+        const apps = data.applications || [];
+
+        // number of applications
+        numEl.textContent = `Applications: ${apps.length}`;
+
+        // render applications
+        if (apps.length === 0) {
+            listEl.innerHTML = `<p>No applications found.</p>`;
+            return;
+        }
+
+        listEl.innerHTML = apps
+            .map(app => {
+                const name = app.name || "Unknown";
+                const applied = app.applied_at || "";
+
+                return `
+                    <jobapp>
+                        <a href="/index.php/profile?id=${app.user_id}" 
+                           class="list-group-item list-group-item-action">
+
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">${name}</h6>
+                                <small class="text-muted">${applied}</small>
+                            </div>
+
+                            <p class="mb-1">Keywords not implemented yet</p>
+
+                        </a>
+                    </jobapp>
+                `;
+            })
+            .join("");
+
+    } catch (err) {
+        console.error("Applications load error:", err);
+        listEl.innerHTML =
+            `<p class="text-danger">Error loading applications.</p>`;
     }
-
-    // Clear the current list
-    list.innerHTML = "";
-
-    // Render applications
-    if (Array.isArray(data.applications) && data.applications.length > 0) {
-      data.applications.forEach((app) => {
-        const a = document.createElement("a");
-        a.href = "#";
-        a.className = "list-group-item list-group-item-action";
-        a.innerHTML = `
-          <div class="d-flex w-100 justify-content-between">
-            <h6 class="mb-1">${app.name || "(Unknown Applicant)"}</h6>
-            <small class="text-muted">${app.appliedDate || "(Unknown Date)"}</small>
-          </div>
-          <p class="mb-1">${app.coverLetter || ""}</p>
-        `;
-        list.appendChild(a);
-      });
-    } else {
-      list.innerHTML = `<div class="p-3 text-muted">No applications found for this job.</div>`;
-    }
-
-    // Update application count
-    if (numApplications) {
-      numApplications.textContent = `Number of Applications: ${data.applications?.length || 0}`;
-    }
-
-  } catch (err) {
-    console.error("Failed to load applications:", err);
-    list.innerHTML = `<div class="p-3 text-danger">Error loading applications: ${err.message}</div>`;
-    if (numApplications) numApplications.textContent = "Number of Applications: 0";
-  }
 });
