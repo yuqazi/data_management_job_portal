@@ -1,33 +1,25 @@
 <?php
-header('Content-Type: application/json');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once __DIR__ . '/../Models/applyModel.php';
 
-// Get job_id from the query string (e.g., applyController.php?job_id=5)
-$jobId = $_GET['job_id'] ?? null;
+header("Content-Type: application/json");
 
-if (!$jobId) {
-    echo json_encode([
-        'success' => false,
-        'error' => 'Missing job_id parameter.'
-    ]);
+if (!isset($_GET['job_id'])) {
+    echo json_encode(["success" => false, "message" => "job_id missing"]);
     exit;
 }
 
+$jobId = intval($_GET['job_id']);
+$model = new ApplyModel();
+$data = $model->getJobAndQuestions($jobId);
 
-// Get job and questions from the model
-$dataModel = new applyModel();
-$data = $dataModel->getJobWithQuestions($jobId);
-
-// Return as JSON
-if ($data) {
-    echo json_encode([
-        'success' => true,
-        'data' => $data
-    ]);
-} else {
-    echo json_encode([
-        'success' => false,
-        'error' => 'Job not found or no questions available.'
-    ]);
+if (!$data) {
+    echo json_encode(["success" => false, "message" => "Job not found"]);
+    exit;
 }
-?>
+
+echo json_encode(["success" => true, "data" => $data]);
+exit;

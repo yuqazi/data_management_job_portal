@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/public/css/styles.css">
 
 </head>
+
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
@@ -33,61 +34,52 @@
 
     <!-- Job Posting Info -->
     <div class="container mt-5">
-        <div class="card my-2">
-            <div class="card-body">
-                <h5 class="card-title">(Job Title)</h5>
-                <p class="card-text">
-                    <strong>Description: </strong>
-                    (Job Description)
-                </p>
-            </div>
-        </div>
-
-        <div class="card my-2">
-            <div class="card-body">
-                <h5 class="card-title">Job Details</h5>
-                <p class="card-text"><strong>Location:</strong> (Job Location)</p>
-                <p class="card-text"><strong>Type:</strong> (Full-time/Part-time/Contract)</p>
-                <p class="card-text"><strong>Salary:</strong> (Salary Range)</p>
-            </div>
-        </div>
-
-        <div class="card my-2">
-            <div class="card-body">
-                <h5 class="card-title">Resume Upload</h5>
-                <p class="card-text">Please upload your resume and cover letter to apply for this job.</p>
-                <input class="form-control" type="file" id="resumeFile" required>
-                <br>
-                <h5 class="card-title">Cover Letter Upload</h5>
-                <input class="form-control" type="file" id="coverLetterFile" required>
-            </div>
-        </div>
-
-        <!-- Applicants -->
-        <div class="card mt-4">
-            <div class="card-header">
-                <h5 class="mb-0">Job Questions</h5>
-            </div>
-            <div class="list-group list-group-flush overflow-auto p-3" style="max-height: 300px;">
-                <div class="mb-3">
-                    <h6 class="mb-1">Question 1</h6>
-                    <p class="mb-1">Options</p>
-                </div>
-                <div class="mb-3">
-                    <h6 class="mb-1">Question 2</h6>
-                    <p class="mb-1">Options</p>
+        <form id="applyForm" enctype="multipart/form-data">
+            <div class="card my-2">
+                <div class="card-body">
+                    <h5 class="card-title" id="jobTitle">(Job Title)</h5>
+                    <p class="card-text" id="jobDescription">(Job Description)</p>
                 </div>
             </div>
-        </div>
-        <div class="mt-2 text-decoration-none">
-            <a href="/index.php/index" class="text-decoration-none">
-                <button class="btn btn-success rounded-pill">Apply</button>
-            </a>
 
-            <a href="/index.php/index" class="text-decoration-none">
-                <button class="btn btn-danger rounded-pill">Cancel</button>
-            </a>
-        </div>
+            <div class="card my-2">
+                <div class="card-body">
+                    <h5 class="card-title">Job Details</h5>
+                    <p class="card-text"><strong>Location:</strong> <span id="jobLocation">(Job Location)</span></p>
+                    <p class="card-text"><strong>Type:</strong> <span id="jobType">(Full-time/Part-time/Contract)</span>
+                    </p>
+                    <p class="card-text"><strong>Salary:</strong> <span id="jobSalary">(Salary Range)</span></p>
+                </div>
+            </div>
+
+            <div class="card my-2">
+                <div class="card-body">
+                    <h5 class="card-title">Resume Upload</h5>
+                    <input class="form-control" type="file" id="resumeFile" name="resumeFile" required>
+                    <br>
+                    <h5 class="card-title">Cover Letter Upload</h5>
+                    <input class="form-control" type="file" id="coverLetterFile" name="coverLetterFile" required>
+                </div>
+            </div>
+
+            <!-- Job Questions -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="mb-0">Job Questions</h5>
+                </div>
+                <div class="list-group list-group-flush overflow-auto p-3" id="questionsContainer"
+                    style="max-height: 300px;">
+                    <!-- Questions will be dynamically added here -->
+                </div>
+            </div>
+
+            <div class="mt-2 text-decoration-none">
+                <button type="submit" class="btn btn-success rounded-pill">Apply</button>
+                <a href="/index.php/index" class="text-decoration-none">
+                    <button type="button" class="btn btn-danger rounded-pill">Cancel</button>
+                </a>
+            </div>
+        </form>
     </div>
 
 

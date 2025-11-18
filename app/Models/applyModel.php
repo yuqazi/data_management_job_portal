@@ -1,57 +1,33 @@
 <?php
-
 require_once __DIR__ . '/../../config.php';
 
-function submitApplication($userId, $jobId, $coverLetter, $resumePath, $applicationQuestions): bool
-{
-    global $pdo;
+class ApplyModel {
 
-    try {
-        // Start a transaction so both inserts succeed or fail together
-        $pdo->beginTransaction();
+    public function getJobAndQuestions($jobId) {
+        global $pdo;
 
-        // Insert into applications
-        $sqlApp = "INSERT INTO applications (people_id, job_id, cover_letter, resume_path)
-                    VALUES (:people_id, :job_id, :cover_letter, :resume_path);";
-        $stmtApp = $pdo->prepare($sqlApp);
+        // Fetch job
+        $stmt = $pdo->prepare("SELECT * FROM jobs WHERE job_id = ?");
+        $stmt->execute([$jobId]);
+        $job = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        $stmtApp->bindParam(':people_id', $userId);
-        $stmtApp->bindParam(':job_id', $jobId);
-        $stmtApp->bindParam(':cover_letter', $coverLetter);
-        $stmtApp->bindParam(':resume_path', $resumePath);
+        if (!$job) return null;
 
-        $stmtApp->execute();
+        // Fetch questions
+        $stmtQ = $pdo->prepare("SELECT * FROM job_questions WHERE job_id = ? ORDER BY order_index ASC");
+        $stmtQ->execute([$jobId]);
+        $questions = $stmtQ->fetchAll(PDO::FETCH_ASSOC);
 
-        // Prepare insert for question answers
-        $sqlQuest = "INSERT INTO question_answers (question_id, people_id, answer, option_id)
-                        VALUES (:question_id, :people_id, :answer, :option_id);";
-        $stmtQuest = $pdo->prepare($sqlQuest);
-
-        // Bind static param once
-        $stmtQuest->bindParam(':people_id', $userId);
-
-        // Loop through application questions stored in session
-        foreach ($applicationQuestions as $question) {
-            $question_id = $question['question_id'];
-            $answer = $question['answer'];
-            $option_id = $question['option_id'];
-
-            $stmtQuest->bindParam(':question_id', $question_id);
-            $stmtQuest->bindParam(':answer', $answer);
-            $stmtQuest->bindParam(':option_id', $option_id);
-
-            $stmtQuest->execute();
+        // Fetch options for each question
+        foreach ($questions as &$q) {
+            $stmtO = $pdo->prepare("SELECT * FROM question_options WHERE question_id = ?");
+            $stmtO->execute([$q['question_id']]);
+            $q['options'] = $stmtO->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        // Commit if all successful
-        $pdo->commit();
-        return true;
-
-    } catch (PDOException $e) {
-        // Roll back on error
-        $pdo->rollBack();
-        error_log("Database error: " . $e->getMessage());
-        return false;
+        return [
+            "job" => $job,
+            "questions" => $questions
+        ];
     }
 }
-?>
