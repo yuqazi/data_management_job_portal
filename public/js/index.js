@@ -1,102 +1,127 @@
+// ---------------------------------------------------------
 // Prevent dropdowns from closing when clicking checkboxes
+// ---------------------------------------------------------
 document.querySelectorAll('.dropdown-menu').forEach(menu => {
-  menu.addEventListener('click', function (e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') {
-      e.stopPropagation();
-    }
-  });
+    menu.addEventListener('click', function (e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'LABEL') {
+            e.stopPropagation();
+        }
+    });
 });
 
 let currentPage = 1;
-const limit = 5; // jobs per page
+const limit = 5;
 
+// ---------------------------------------------------------
+// Main loader function
+// ---------------------------------------------------------
 function loadJobs(page = 1) {
-  const formData = new FormData(document.getElementById('filtersForm'));
 
-  // Convert FormData to URL query parameters
-  const params = new URLSearchParams();
-  params.append('page', page);
-  params.append('limit', limit);
+    const filtersForm = document.getElementById('filtersForm');
+    const formData = new FormData(filtersForm);
 
-  // Add selected filters
-  for (let [key, value] of formData.entries()) {
-    params.append(key, value);
-  }
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('limit', limit);
 
-  // -------------------------------------------------------
-  // ✔ Correct fetch path for your folder structure
-  // -------------------------------------------------------
-  fetch(`/app/Controllers/indexController.php?${params.toString()}`)
-  
-    .then(res => res.json())
-    .then(data => {
+    // Add selected filters
+    for (let [key, value] of formData.entries()) {
+        params.append(key, value);
+    }
 
-      console.log("Jobs returned from server:", data.jobs);
+    // 🔍 Add search bar values
+    const keywordInput = document.querySelectorAll('#centerInput')[0];
+    const locationInput = document.querySelectorAll('#centerInput')[1];
 
-      const jobs = data.jobs || [];
-      const jobsList = document.getElementById('jobsList');
-      const prevBtn = document.getElementById('prevPage');
-      const nextBtn = document.getElementById('nextPage');
-      jobsList.innerHTML = '';
+    if (keywordInput.value.trim() !== "") {
+        params.append('search', keywordInput.value.trim());
+    }
+    if (locationInput.value.trim() !== "") {
+        params.append('location', locationInput.value.trim());
+    }
 
-      if (jobs.length === 0) {
-        jobsList.innerHTML = '<p class="text-center my-3 text-muted">No jobs found.</p>';
-        nextBtn.disabled = true;
-        return;
-      }
+    console.log("Request params:", params.toString());
 
-jobs.forEach(job => {
-    const jobCard = document.createElement('a');
-    // Use job_id here instead of org_id
-    jobCard.href = `/index.php/job-details?job_id=${job.job_id}`;
-    jobCard.className = 'list-group-item list-group-item-action d-flex justify-content-between gap-2';
+    fetch(`/app/Controllers/indexController.php?${params.toString()}`)
+        .then(res => res.json())
+        .then(data => {
 
-    jobCard.innerHTML = `
-      <div class="col-8">
-        <h6 class="mb-1">${job.title}</h6>
-        <p class="mb-1">${job.description}</p>
-        <small class="text-muted">${job.location}</small>
-      </div>
-      <div class="text-end col-4">
-        <small class="text-muted d-block">Posted on: ${job.postedDate}</small>
-        <p class="mb-1">${job.company}</p>
-      </div>
-    `;
-    jobsList.appendChild(jobCard);
-});
+            const jobsList = document.getElementById('jobsList');
+            const prevBtn = document.getElementById('prevPage');
+            const nextBtn = document.getElementById('nextPage');
 
+            jobsList.innerHTML = '';
 
-      prevBtn.disabled = data.page <= 1;
-      const totalPages = Math.ceil(data.totalJobs / data.limit);
-      nextBtn.disabled = data.page >= totalPages;
-    })
-    .catch(err => {
-      console.error('Error loading jobs:', err);
-      document.getElementById('jobsList').innerHTML = '<p class="text-danger text-center">Error loading jobs.</p>';
-    });
+            const jobs = data.jobs || [];
+
+            if (jobs.length === 0) {
+                jobsList.innerHTML = `<p class="text-center my-3 text-muted">No jobs found.</p>`;
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+                return;
+            }
+
+            jobs.forEach(job => {
+                const jobCard = document.createElement('a');
+                jobCard.href = `/index.php/job-details?job_id=${job.job_id}`;
+                jobCard.className = 'list-group-item list-group-item-action d-flex justify-content-between gap-2';
+
+                jobCard.innerHTML = `
+                    <div class="col-8">
+                        <h6 class="mb-1">${job.title}</h6>
+                        <p class="mb-1">${job.description}</p>
+                        <small class="text-muted">${job.location}</small>
+                    </div>
+                    <div class="text-end col-4">
+                        <small class="text-muted d-block">${job.company}</small>
+                    </div>
+                `;
+
+                jobsList.appendChild(jobCard);
+            });
+
+            prevBtn.disabled = data.page <= 1;
+            nextBtn.disabled = data.page >= Math.ceil(data.totalJobs / data.limit);
+        })
+        .catch(err => {
+            console.error("Error loading jobs:", err);
+        });
 }
 
+// ---------------------------------------------------------
+// Initialize
+// ---------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  const prevBtn = document.getElementById('prevPage');
-  const nextBtn = document.getElementById('nextPage');
 
-  prevBtn.addEventListener('click', () => {
-    if (currentPage > 1) {
-      currentPage--;
-      loadJobs(currentPage);
-    }
-  });
+    const prevBtn = document.getElementById('prevPage');
+    const nextBtn = document.getElementById('nextPage');
 
-  nextBtn.addEventListener('click', () => {
-    currentPage++;
+    const filtersForm = document.getElementById('filtersForm');
+
+    // Pagination
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            loadJobs(currentPage);
+        }
+    });
+
+    nextBtn.addEventListener('click', () => {
+        currentPage++;
+        loadJobs(currentPage);
+    });
+
+    // Filters
+    filtersForm.addEventListener('change', () => {
+        currentPage = 1;
+        loadJobs(currentPage);
+    });
+
+    // 🔍 Search button
+    document.querySelector('input[type="button"]').addEventListener('click', () => {
+        currentPage = 1;
+        loadJobs(currentPage);
+    });
+
     loadJobs(currentPage);
-  });
-
-  const filtersForm = document.getElementById('filtersForm');
-  filtersForm.addEventListener('change', () => {
-    currentPage = 1;
-    loadJobs(currentPage);
-  });
-
-  loadJobs(currentPage);
 });
