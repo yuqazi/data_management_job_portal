@@ -1,10 +1,10 @@
-Job Portal Data Management System
+# Job Portal Data Management System
 
 A web-based platform designed to manage job listings, applicant submissions, and administrative review. The system demonstrates key concepts in database management, server-side scripting, and dynamic website development.
 
-Description
+### Description
 
-  The Job Portal Data Management System is a multi-tier application implemented using PHP, MySQL, HTML, CSS, and JavaScript. It provides a structured environment where administrators can create and manage job postings, and users can browse these postings and submit applications with their personal information and documents.
+The Job Portal Data Management System is a multi-tier application implemented using PHP, MySQL, HTML, CSS, and JavaScript. It provides a structured environment where administrators can create and manage job postings, and users can browse these postings and submit applications with their personal information and documents.
 
 This project is intended as an academic demonstration of:
   - Database-driven web applications
@@ -15,16 +15,18 @@ This project is intended as an academic demonstration of:
 
 The system simulates a simplified version of modern recruitment platforms and can serve as a foundation for further development in software engineering coursework.
 
-Getting Started
+***
 
-  Dependencies
+### Getting Started
+
+  #### Dependencies
     Before installing the program, ensure the following prerequisites are met:
 
-  Operating System Requirements
+  #### Operating System Requirements
     - Windows 10 or Windows 11
     - Ubuntu 20.04+, Debian 11+, Fedora 34+ (or any modern Linux distribution)
 
-  Required Software
+  #### Required Software
     - Web Server: Apache 2.4+
     - PHP: Version 8.0 or higher
         - Required PHP Extensions:
@@ -40,13 +42,12 @@ Getting Started
       - Composer (future dependency management)
       - phpMyAdmin (database UI)
 
-Installing
+#### Installing
 1. Downloading the Program
   1.  Extract the provided ZIP file:
      - Data_management_job_portal-main.zip
 
   2. Move the extracted project folder into your web server directory:
-    - Windows (XAMPP): C:\xampp\htdocs\job_portal\
     - Linux (LAMP): /var/www/html/job_portal/
     - Windows (WAMP): C:\wamp64\www\job_portal\
 
@@ -64,13 +65,7 @@ Installing
     $db_pass = "";         // Linux users may need to set a password
     $db_name = "job_portal";
 
-Executing Program
-  - On Windows (XAMPP)
-     1. Open XAMPP Control Panel
-     2. Start:
-         - Apache
-         - MySQL
-     3. Navigate in your browser to: http://localhost/job_portal/
+#### Executing Program
   - On Linux (LAMP)
       1. Start services:
         - sudo systemctl start apache2
@@ -85,7 +80,7 @@ Executing Program
     3. Navigate in your browser to: http://localhost/job_portal/index.html
 
 
-Step-by-Step Execution Summary
+### Step-by-Step Execution Summary
   1. Install required software
   2. Extract the project folder to the web root
   3. Create job_portal database
