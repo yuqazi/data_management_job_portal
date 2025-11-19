@@ -48,18 +48,19 @@ Installing
   2. Move the extracted project folder into your web server directory:
     - Windows (XAMPP): C:\xampp\htdocs\job_portal\
     - Linux (LAMP): /var/www/html/job_portal/
+    - Windows (WAMP): C:\wamp64\www\job_portal\
 
 2. Database Setup
   1. Start MySQL
-  2. Open phpMyAdmin or your SQL terminal
+  2. Open phpMyAdmin(http://localhost/phpmyadmin/) or your SQL terminal
   3. Create the database: CREATE DATABASE job_portal;
   4. Import schema.sql (if included)
 
 3. Configuration File Modification
   Open the file: config.php
   Modify database credentials appropriately:
-    $db_host = "localhost";
-    $db_user = "root";
+    $db_host = "localhost"; // Might need to change to 127.0.0.1
+    $db_user = "root";     // WAMP default root password is empty
     $db_pass = "";         // Linux users may need to set a password
     $db_name = "job_portal";
 
@@ -78,6 +79,11 @@ Executing Program
         - sudo systemctl restart apache2
       3. Access the program:
         - http://your-server-ip/job_portal/
+  - On Windows (WAMP)
+    1. Run wampmanager.exe application
+    2. Ensure Apache and MySQL (WAMP icon should be green)
+    3. Navigate in your browser to: http://localhost/job_portal/index.html
+
 
 Step-by-Step Execution Summary
   1. Install required software
