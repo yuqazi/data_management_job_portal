@@ -25,7 +25,7 @@
                     <a class="nav-link active" aria-current="page" href="/index.php/index">Search</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/index.php/profile">Profile</a>
+                    <a class="nav-link" href="/index.php/profile" id="profile-link">Profile</a>
                 </li>
             </ul>
         </div>
@@ -113,26 +113,6 @@
                             </ul>
                         </div>
 
-                        <!-- Experience Level Dropdown -->
-
-                        <div class="dropdown" data-bs-auto-close="outside">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Experience Level
-                            </button>
-                            <ul class="dropdown-menu ps-2">
-                                <li><input type="checkbox" id="entry" name="experience" value="Entry Level">
-                                    <label for="entry"> Entry Level</label><br>
-                                </li>
-                                <li><input type="checkbox" id="mid" name="experience" value="Mid Level">
-                                    <label for="mid"> Mid Level</label><br>
-                                </li>
-                                <li><input type="checkbox" id="senior" name="experience" value="Senior Level">
-                                    <label for="senior"> Senior Level</label><br>
-                                </li>
-                            </ul>
-                        </div>
-
                     </div>
                 </form>
             </div>
@@ -171,6 +151,7 @@
     <!-- Use absolute path to the app JS so it resolves correctly when this view is served -->
     <script src="/public/js/index.js"></script>
     <script src="/public/js/chart.js"></script>
+    <script src="/public/js/navbar.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0"></script>
 </body>
 </html>

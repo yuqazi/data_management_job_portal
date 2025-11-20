@@ -1,24 +1,34 @@
 <?php
 header('Content-Type: application/json');
-// Require the profile model using a correct relative path from this controller
+session_start();
 
 require_once __DIR__ . '/../Models/profileModel.php';
 
-// Get the user ID from query string or POST data (default to 1)
-$userId = 1;
+// -------------------------------
+// Determine which user ID to load
+// -------------------------------
 
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $userId = isset($_GET['id']) ? intval($_GET['id']) : 1;
-} elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true);
-    $userId = isset($data['id']) ? intval($data['id']) : (isset($_GET['id']) ? intval($_GET['id']) : 1);
+// If logged in → ALWAYS use session user
+if (isset($_SESSION['user']) && isset($_SESSION['user']['userID'])) {
+    $userId = intval($_SESSION['user']['userID']);
+}
+// If not logged in → allow manual ?id=123
+else {
+    if (isset($_GET['id'])) {
+        $userId = intval($_GET['id']);
+    } else {
+        echo json_encode(["error" => "No user session and no ?id provided"]);
+        exit;
+    }
 }
 
-// Handle GET requests - fetch user profile
+// -------------------------------
+// GET request → return profile info
+// -------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     try {
         $user = UserModel::getUser($userId);
-        
+
         if ($user) {
             echo json_encode($user);
         } else {
@@ -29,40 +39,52 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         http_response_code(500);
         echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
     }
+
+    exit;
 }
 
-// Handle POST requests - update profile data
+// -------------------------------
+// POST request → update profile
+// -------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $data = json_decode(file_get_contents('php://input'), true);
         $action = $data['action'] ?? null;
+
+        if (!$action) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Missing action']);
+            exit;
+        }
+
         $success = false;
         $message = '';
 
         switch ($action) {
+
             case 'updateAbout':
                 $about = $data['about'] ?? '';
                 $success = UserModel::updateAbout($userId, $about);
-                $message = $success ? 'About section updated successfully' : 'Failed to update about section';
+                $message = $success ? 'About updated successfully' : 'Failed to update about';
                 break;
 
             case 'addExperience':
-                $title = $data['title'] ?? '';
-                $duration = $data['duration'] ?? '';
+                $title = trim($data['title'] ?? '');
+                $duration = trim($data['duration'] ?? '');
                 $success = UserModel::addWorkExperience($userId, $title, $duration);
-                $message = $success ? 'Work experience added successfully' : 'Failed to add work experience';
+                $message = $success ? 'Work experience added' : 'Failed to add work experience';
                 break;
 
             case 'addCertification':
-                $certificate = $data['certificate'] ?? '';
+                $certificate = trim($data['certificate'] ?? '');
                 $success = UserModel::addCertification($userId, $certificate);
-                $message = $success ? 'Certification added successfully' : 'Failed to add certification';
+                $message = $success ? 'Certification added' : 'Failed to add certification';
                 break;
 
             case 'addSkill':
-                $skill = $data['skill'] ?? '';
+                $skill = intval($data['skill'] ?? 0);
                 $success = UserModel::addSkill($userId, $skill);
-                $message = $success ? 'Skill added successfully' : 'Failed to add skill';
+                $message = $success ? 'Skill added' : 'Failed to add skill';
                 break;
 
             default:
@@ -71,11 +93,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 exit;
         }
 
-        http_response_code($success ? 200 : 400);
         echo json_encode(['success' => $success, 'message' => $message]);
+
     } catch (Exception $e) {
         http_response_code(500);
         echo json_encode(['success' => false, 'message' => 'Database error: ' . $e->getMessage()]);
     }
+
+    exit;
 }
-?>
+
+// -------------------------------
+// Unsupported HTTP Method
+// -------------------------------
+http_response_code(405);
+echo json_encode(['error' => 'Method not allowed']);

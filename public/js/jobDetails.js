@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const jobLocation = document.querySelectorAll(".card-body h4")[2].nextElementSibling;
   const jobTagsContainer = document.getElementById("jobTags"); // Updated selector
   const companyProfileBtn = document.querySelector("a[href='/company_profile.html']");
-  const applyBtn = document.querySelector("a[href='/apply.html']");
+  const applyBtn = document.getElementById("applyBtn");
 
   const urlParams = new URLSearchParams(window.location.search);
   const jobId = urlParams.get("job_id");
@@ -51,7 +51,7 @@ if (companyProfileBtn) {
 }
 
     if (applyBtn) {
-      applyBtn.href = `/apply?job_id=${jobId}`;
+      applyBtn.href = `/index.php/apply?job_id=${jobId}`;
     }
 
   } catch (err) {

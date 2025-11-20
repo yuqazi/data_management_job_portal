@@ -55,8 +55,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                                 <small class="text-muted">${applied}</small>
                             </div>
 
-                            <p class="mb-1">Keywords not implemented yet</p>
-
                         </a>
                     </jobapp>
                 `;

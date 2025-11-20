@@ -31,7 +31,7 @@ function authenticateUser($email, $password)
     if (!$user) return false;
 
     // Plain-text password comparison (only if DB passwords are not hashed)
-    if (!password_verify($password, $user['password'])) return false;
+    if ($user['password'] !== $password) return false;
 
     return $user;
 }

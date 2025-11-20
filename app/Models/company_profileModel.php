@@ -4,9 +4,11 @@ require_once __DIR__ . '/../../config.php';
 class company_profileModel{
     public static function getCompany($companyId){
         global $pdo;
-        $sql = "SELECT o.name, o.email, o.telephone, o.location
-                FROM org o 
-                WHERE o.org_id = :companyId;";
+        $sql = "
+        SELECT o.name, o.email, o.telephone, o.location
+        FROM org o 
+        WHERE o.org_id = :companyId;
+        ";
         $stmt = $pdo->prepare($sql);
         $stmt->bindParam(':companyId', $companyId);
         $stmt->execute();
